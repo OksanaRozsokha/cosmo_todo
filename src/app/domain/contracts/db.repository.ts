@@ -4,7 +4,7 @@ import { IToDo } from '../entities/interfaces/todo.interface';
 
 export abstract class AbstractDBRepository {
     public abstract getAllTodos$(): Observable<ToDoEntity[]|null>;
-    public abstract createTodo(todo: IToDo): void;
-    public abstract updateTodo(todo: ToDoEntity): void;
-    public abstract removeTodo(todoId: string): void;
+    public abstract createTodo(todo: IToDo): Promise<void>;
+    public abstract updateTodo(todo: ToDoEntity): Promise<void>;
+    public abstract removeTodo(todoId: string): Promise<void>;
 }

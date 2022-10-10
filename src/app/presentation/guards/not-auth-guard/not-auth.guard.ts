@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { RouterConstants } from 'src/app/common/constants/router.constants';
 import { UserEntity } from 'src/app/domain/entities/user.entity';
 import { AuthService } from 'src/app/domain/servicies/auth-service/auth.service';
 
@@ -22,7 +23,7 @@ export class NotAuthGuard implements CanActivate {
   }
 
   private _onSignedInUser(): false {
-    this.router.navigate(['/todo-board']);
+    this.router.navigate([`/${RouterConstants.todoBoardPage}`]);
     return false;
   }
 
@@ -31,5 +32,4 @@ export class NotAuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this._isUserNotSignedIn$();
   }
-
 }

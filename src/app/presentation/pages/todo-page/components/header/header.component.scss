@@ -1,0 +1,89 @@
+@import 'colors';
+@import 'grid';
+@import 'spaces';
+@import 'text';
+
+.cosmo-header {
+    background: $accentColor;
+    box-shadow: 0 -5px 25px -5px black;
+}
+
+.content-wrapper {
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.cosmo-menu {
+    position: absolute;
+    right: 0;
+    bottom: -42px;
+    width: 100%;
+    max-width: 170px;
+    padding: 0;
+    list-style-image: none;
+    list-style: none;
+    list-style-type: none;
+
+    &__item-btn {
+        background: $accentColor;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border: 0;
+        outline: none;
+        width: 100%;
+        padding: 10px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $primaryTextColor;
+        cursor: pointer;
+        transition: background .2s ease;
+
+        &:hover {
+            background: $itemHoverColor;
+        }
+    }
+}
+
+.cosmo-greeting-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.cosmo-greeting {
+    font-size: 18px;
+
+    @media (max-width: 650px) {
+        display: none;
+    }
+}
+
+.cosmo-logo {
+    font-weight: 800;
+
+    @media (max-width: 385px) {
+        font-size: 30px;
+    }
+}
+
+.cosmo-avatar {
+    display: block;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 100%;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+
+    &__img {
+        width: 100%;
+    }
+
+    @media (max-width: 385px) {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}

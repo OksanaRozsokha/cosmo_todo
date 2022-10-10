@@ -1,0 +1,19 @@
+@import 'colors';
+
+.text {
+    &--bold {
+        font-weight: 700;
+    }
+
+    &--extra-bold {
+        font-weight: 800;
+    }
+
+    &--thin {
+        font-weight: 300;
+    }
+
+    &--secondary-color {
+        color: $secondaryTextColor;
+    }
+}

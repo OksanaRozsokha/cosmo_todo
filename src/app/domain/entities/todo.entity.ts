@@ -1,12 +1,11 @@
-import { IToDo } from './interfaces/todo.interface';
-
+import { IToDo, todoStatus } from './interfaces/todo.interface';
 export class ToDoEntity implements IToDo {
     constructor(
         public index: number,
         public title: string,
         public description: string,
         public imageUrl: string,
-        public completionDate: number,
+        public status: todoStatus,
         public id: string|null = null
     ) {}
 }

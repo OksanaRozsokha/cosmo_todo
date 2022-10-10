@@ -1,0 +1,27 @@
+@import 'grid';
+@import 'text';
+@import 'colors';
+
+.cosmo-board {
+    padding-top: 40px;
+
+    @media (max-width: 385px) {
+        padding-top: 20px;
+    }
+}
+
+.cosmo-column-title {
+    margin-bottom: 20px;
+
+    @media (max-width: 385px) {
+        font-size: 14px;
+    }
+}
+
+.cosmo-todo-sm {
+    display: block;
+    cursor: pointer;
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}

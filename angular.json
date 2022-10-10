@@ -12,9 +12,12 @@
         }
       },
       "root": "",
+
       "sourceRoot": "src",
+
       "prefix": "app",
       "architect": {
+
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -24,6 +27,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
+            },
             "assets": [
               "src/favicon.ico",
               "src/assets"

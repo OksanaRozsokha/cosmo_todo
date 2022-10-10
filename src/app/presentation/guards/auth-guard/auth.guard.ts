@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSt
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/domain/servicies/auth-service/auth.service';
 import { UserEntity } from 'src/app/domain/entities/user.entity';
+import { RouterConstants } from 'src/app/common/constants/router.constants';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   private _onNotSignedInUser(): false {
-    this.router.navigate(['/sign-in']);
+    this.router.navigate([`/${RouterConstants.signInPage}`]);
     return false;
   }
 

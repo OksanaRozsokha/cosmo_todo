@@ -1,0 +1,31 @@
+@import 'grid';
+@import 'colors';
+
+.cosmo-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .85);
+}
+
+.cosmo-popup {
+    width: 100%;
+    max-width: 70%;
+    height: 90vh;
+    max-height: 450px;
+    overflow-y: auto;
+    border-radius: 2px;
+    overflow: hidden;
+    background: $popupColor;
+    overflow-y: auto;
+
+    @media (max-width: 1010px) {
+        max-width: 85%;
+    }
+}

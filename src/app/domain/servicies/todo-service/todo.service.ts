@@ -15,15 +15,15 @@ export class TodoService {
     return this.dbRepository.getAllTodos$();
   }
 
-  public createToDo(todo: IToDo): void {
+  public createToDo(todo: IToDo): Promise<void> {
     return this.dbRepository.createTodo(todo);
   }
 
-  public updateTodo(todo: ToDoEntity): void {
+  public updateTodo(todo: ToDoEntity): Promise<void> {
     return this.dbRepository.updateTodo(todo);
   }
 
-  public removeTodo(todoId: string): void {
+  public removeTodo(todoId: string): Promise<void> {
     return this.dbRepository.removeTodo(todoId);
   }
 }

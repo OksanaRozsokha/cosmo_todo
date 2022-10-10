@@ -12,6 +12,6 @@ export class ToDoFactory implements IFactory<IToDo, ToDoEntity> {
 
     public create(argument: IToDo): ToDoEntity {
         this._index++;
-        return  new ToDoEntity( this._index, argument.title, argument.description, argument.imageUrl, argument.completionDate);
+        return  new ToDoEntity( this._index, argument.title, argument.description, argument.imageUrl, argument.status);
     }
 }

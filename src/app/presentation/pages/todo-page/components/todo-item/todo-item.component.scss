@@ -1,0 +1,119 @@
+@import 'colors';
+@import 'grid';
+@import 'text';
+
+.cosmo-left-section {
+    padding: 30px 0 30px 30px;
+
+    @media (max-width: 720px) {
+        padding: 25px  0 25px 15px;
+    }
+
+    @media (max-width: 670px) {
+        padding: 25px 15px 15px 15px;
+    }
+}
+
+.cosmo-right-section {
+    padding: 30px;
+    background: $panelsColor;
+
+    @media (max-width: 720px) {
+        padding: 15px 15px 25px 15px;
+    }
+}
+
+.cosmo-field-block {
+    display: block;
+
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+    &--inline {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &--width {
+        width: 100%;
+        max-width: 385px;
+    }
+}
+
+.cosmo-field-block__input {
+    display: block;
+    width: 100%;
+    outline: none;
+    padding: 10px;
+    border: 1px solid #6755962b;
+    border-radius: 2px;
+}
+
+.cosmo-field-block__textarea {
+    display: block;
+    width: 100%;
+    height: 30vh;
+    outline: none;
+    padding: 10px;
+    border: 1px solid #6755962b;
+    border-radius: 2px;
+    resize: none;
+}
+
+.cosmo-field-block__select {
+    display: block;
+    width: 100%;
+    max-width: 286px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+
+}
+
+.cosmo-button {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    padding: 10px;
+    background: $btnPositiveColor;
+    color: $primaryTextColor;
+    border-radius: 2px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: background .2s ease;
+
+    &:hover {
+        background: $btnHoverPositiveColor;
+    }
+
+    &[disabled] {
+        cursor: default;
+        background: $btnDisabledColor;
+
+        &:hover {
+            background: $btnDisabledColor;
+        }
+    }
+
+    &--negative {
+        background: $btnNegativeColor;
+
+        &:hover {
+            background: $btnHoverNegativeColor;
+        }
+    }
+
+    &:first-child {
+        @media (max-width: 890px) {
+            margin-right: 20px;
+        }
+
+        // @media (max-width: 560px) {
+        //     margin-right: 10px;
+        // }
+    }
+}

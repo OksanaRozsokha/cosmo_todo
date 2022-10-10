@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './presentation/guards/auth-guard/auth.guard';
-import { SignInPage } from './presentation/pages/sign-in/sign-in.component';
-import { TodoBoardPage } from './presentation/pages/todo-board/todo-board.component';
+import { NotAuthGuard } from './presentation/guards/not-auth-guard/not-auth.guard';
+import { SignInPage } from './presentation/pages/sign-in-page/sign-in.component';
+import { TodoPage } from './presentation/pages/todo-page/todo-page.component';
+import { RouterConstants } from './common/constants/router.constants';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
-  { path: 'sign-in', component: SignInPage },
-  { path: 'todo-board', component: TodoBoardPage, canActivate: [AuthGuard] },
+  { path: '', redirectTo: RouterConstants.signInPage, pathMatch: 'full'},
+  { path: RouterConstants.signInPage, component: SignInPage, canActivate: [NotAuthGuard] },
+  { path: RouterConstants.todoBoardPage, component: TodoPage, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
