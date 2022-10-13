@@ -7,16 +7,16 @@ import { BehaviorSubject } from 'rxjs';
 
 export class PopupCommunicationsService {
 
-  isPopupVisible$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  bodyOwerflowClassName: string = 'body-owerflow';
+  public isPopupVisible$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _bodyOwerflowClassName: string = 'body-owerflow';
 
   public open(): void {
     this.isPopupVisible$.next(true);
-    document.body.classList.add(this.bodyOwerflowClassName)
+    document.body.classList.add(this._bodyOwerflowClassName)
   }
 
   public close(): void {
     this.isPopupVisible$.next(false);
-    document.body.classList.remove(this.bodyOwerflowClassName);
+    document.body.classList.remove(this._bodyOwerflowClassName);
   }
 }

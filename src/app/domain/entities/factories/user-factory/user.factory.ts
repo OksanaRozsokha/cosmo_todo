@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IFactory } from '../interfaces/factory.interface';
-import { IUser } from '../interfaces/user.interface';
-import { UserEntity } from '../user.entity';
+import { IFactory } from '../../interfaces/factory.interface';
+import { IUser } from '../../interfaces/user.interface';
+import { UserEntity } from '../../user-entity/user.entity';
 
 @Injectable({
     providedIn: 'root'

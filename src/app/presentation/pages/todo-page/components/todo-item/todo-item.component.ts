@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service';
 import { todoStatus } from '../../../../../domain/entities/interfaces/todo.interface';
-import { ToDoEntity } from '../../../../../domain/entities/todo.entity';
+import { ToDoEntity } from '../../../../../domain/entities/todo-entity/todo.entity';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
 
 @Component({
@@ -11,17 +11,17 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
         <div class="cosmo-left-section grid-row__item grid-row__item--lg grid-row__item--full-width-on-sm">
             <label class="cosmo-field-block">
               <h3 class="cosmo-field-block__title text--secondary-color">Enter your title:*</h3>
-              <input [(ngModel)]="title" (input)="checkIsTodoChanged()" class="cosmo-field-block__input" placeholder="My title here..." type="text">
+              <input [(ngModel)]="title" (input)="onTodoChange()" class="cosmo-field-block__input" placeholder="My title here..." type="text">
             </label>
 
             <label class="cosmo-field-block">
               <h3 class="cosmo-field-block__title text--secondary-color">Leave a note:</h3>
-              <textarea [(ngModel)]="description" (input)="checkIsTodoChanged()" class="cosmo-field-block__textarea" placeholder="My description here..."></textarea>
+              <textarea [(ngModel)]="description" (input)="onTodoChange()" class="cosmo-field-block__textarea" placeholder="My description here..."></textarea>
             </label>
 
-            <!--TO DO: add image uploading -->
+            <!--TO DO: add image uploading here -->
             <div class="cosmo-field-block cosmo-field-block--width cosmo-field-block--inline">
-              <button [disabled]="title.length === 0 || !isTodoChanged" class="cosmo-button" (click)="onSave()">Save</button>
+              <button [disabled]="isSaveBtnDisable" class="cosmo-button" (click)="onSave()">Save</button>
               <button *ngIf="todo" class="cosmo-button cosmo-button--negative" (click)="removeTodo()">Delete</button>
             </div>
 
@@ -31,7 +31,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
         <label class="cosmo-field-block">
           <h3 class="cosmo-field-block__title">Choose status:</h3>
 
-          <select [(ngModel)]="status" (change)="checkIsTodoChanged()" class="cosmo-field-block__select">
+          <select [(ngModel)]="status" (change)="onTodoChange()" class="cosmo-field-block__select">
             <option [value]="todoStatusObj.inWaitingList">In waiting list</option>
             <option [value]="todoStatusObj.inProgress">In cosmo progress</option>
             <option [value]="todoStatusObj.completed">Done</option>
@@ -45,13 +45,14 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
 export class TodoItemComponent implements OnInit {
   @Input() todo?: ToDoEntity;
 
-  isTodoChanged: boolean = false;
+  isSaveBtnDisable: boolean = true;
 
   todoStatusObj = {
     inWaitingList: todoStatus.inWaitingList,
     inProgress: todoStatus.inProgress,
     completed: todoStatus.completed
   }
+
 
   title!: string;
   description!: string;
@@ -99,14 +100,20 @@ export class TodoItemComponent implements OnInit {
   }
 
   public onSave(): void {
-    this.todo ? this._updateTodo() : this._createTodo();
+    !!this.todo ? this._updateTodo() : this._createTodo();
   }
 
-  public checkIsTodoChanged() {
-    this.isTodoChanged = !!this.todo && (
-      this.title != this.todo.title ||
-      this.description != this.todo.description ||
-      this.status != this.todo.status ||
-      this.imageUrl != this.todo.imageUrl);
+  private _checkIsBtnDisable(): boolean {
+    if (this.title.length === 0) return true;
+    if (!this.todo) return false;
+
+    return !!this.todo && this.title === this.todo!.title &&
+      this.description === this.todo.description &&
+      this.status === this.todo.status &&
+      this.imageUrl === this.todo.imageUrl;
+  }
+
+  onTodoChange(): void {
+    this.isSaveBtnDisable = this._checkIsBtnDisable();
   }
 }

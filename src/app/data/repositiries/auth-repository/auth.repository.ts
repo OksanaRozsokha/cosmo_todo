@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { AngularFireAuthFacade } from "src/app/data/firebase-facade/angular-fire-auth.facade";
+import { AngularFireAuthFacade } from "src/app/data/firebase-facade/auth-facade/angular-fire-auth.facade";
 import { AbstractAuthRepository } from "src/app/domain/contracts/auth.repository";
-import { UserEntity } from "src/app/domain/entities/user.entity";
+import { UserEntity } from "src/app/domain/entities/user-entity/user.entity";
 
 @Injectable({
     providedIn: 'root'

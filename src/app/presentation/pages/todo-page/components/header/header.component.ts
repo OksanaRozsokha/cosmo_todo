@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../../../../../domain/servicies/auth-service/auth.service';
-import { UserEntity } from '../../../../../domain/entities/user.entity';
+import { UserEntity } from '../../../../../domain/entities/user-entity/user.entity';
 import { Observable } from 'rxjs';
 import { RouterConstants } from '../../../../../common/constants/router.constants';
 import { Router } from '@angular/router';

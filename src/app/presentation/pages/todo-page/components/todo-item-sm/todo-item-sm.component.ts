@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ToDoEntity } from 'src/app/domain/entities/todo.entity';
+import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 
 @Component({
   selector: 'app-todo-item-sm',

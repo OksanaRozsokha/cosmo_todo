@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractDBRepository } from '../../contracts/db.repository';
 import { Observable } from 'rxjs';
-import { ToDoEntity } from '../../entities/todo.entity';
+import { ToDoEntity } from '../../entities/todo-entity/todo.entity';
 import { IToDo } from '../../entities/interfaces/todo.interface';
 
 @Injectable({

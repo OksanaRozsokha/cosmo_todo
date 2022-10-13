@@ -26,7 +26,7 @@ export class TodoPage {
     ) { }
 
   onCreateTodo(): void {
-    this.todoDetailsService.setTodoItem(undefined);
+    this.todoDetailsService.todoItem = undefined;
     this.popupService.open();
   }
 }

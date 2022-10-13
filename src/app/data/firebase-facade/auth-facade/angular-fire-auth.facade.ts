@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, User } from 'firebase/auth';
 import { map, Observable } from 'rxjs';
-import { UserEntity } from 'src/app/domain/entities/user.entity';
-import { UserFactory } from '../../domain/entities/factories/user.factory';
+import { UserEntity } from 'src/app/domain/entities/user-entity/user.entity';
+import { UserFactory } from '../../../domain/entities/factories/user-factory/user.factory';
 
 @Injectable({
     providedIn: 'root'
@@ -14,17 +14,9 @@ export class AngularFireAuthFacade {
         private auth: AngularFireAuth,
         private usesrFactory: UserFactory) {}
 
-    private _userId?: string|null;
 
     public signInWithGoogle(): Promise<void> {
-        return this.auth.signInWithPopup(new GoogleAuthProvider()).then(
-            response => {
-                console.log('SignInResult', response);
-                console.log('User Id in Sin I WRAPPER', this._userId)
-                this._userId = response.user?.uid ?? null;
-                console.log('User Id in Sin I WRAPPER', this._userId)
-            }
-        )
+        return this.auth.signInWithPopup(new GoogleAuthProvider()).then();
     }
 
     public signOut(): Promise<void> {
@@ -33,6 +25,7 @@ export class AngularFireAuthFacade {
 
     public getSignedInUser$(): Observable<UserEntity|null> {
         return this.auth.authState.pipe(map(firebaseUser => {
+            console.log(firebaseUser)
             if (!firebaseUser) return null;
             return this.usesrFactory.create(
                 {
@@ -44,9 +37,6 @@ export class AngularFireAuthFacade {
                 }
             )
         }));
-    }
 
-    public getUserId(): string|null {
-        return this._userId ?? null;
     }
  }

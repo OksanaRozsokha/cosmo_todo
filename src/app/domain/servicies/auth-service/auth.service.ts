@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractAuthRepository } from '../../contracts/auth.repository';
-import { UserEntity } from '../../entities/user.entity';
+import { UserEntity } from '../../entities/user-entity/user.entity';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AbstractDBRepository } from "src/app/domain/contracts/db.repository";
-import { ToDoEntity } from "src/app/domain/entities/todo.entity";
-import { AngularFireDataBasaFacade } from '../firebase-facade/angular-fire-db.facade';
-import { IToDo } from '../../domain/entities/interfaces/todo.interface';
-import { ToDoFactory } from '../../domain/entities/factories/todo.factory';
+import { ToDoEntity } from "src/app/domain/entities/todo-entity/todo.entity";
+import { AngularFireDataBasaFacade } from '../../firebase-facade/db-facade/angular-fire-db.facade';
+import { IToDo } from '../../../domain/entities/interfaces/todo.interface';
+import { ToDoFactory } from '../../../domain/entities/factories/todo-factory/todo.factory';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +16,7 @@ export class DBRepository implements AbstractDBRepository {
         private todoFactory: ToDoFactory
     ) {}
 
-    public getAllTodos$(): Observable<ToDoEntity[] | null> {
+    public getAllTodos$(): Observable<ToDoEntity[]> {
         return this.dbFacade.getTodoListfromDB$()
     }
 

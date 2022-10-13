@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service';
-import { ToDoEntity } from 'src/app/domain/entities/todo.entity';
+import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 import { TodoDetailsService } from '../../../../ui-services/todo-details/todo-details.service';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
 
@@ -42,7 +42,7 @@ export class TodoBoardComponent  {
   todoList$?: Observable<ToDoEntity[] | null> = this.todoService.getAllTodos$();
 
   onTodoClick(todo: ToDoEntity): void {
-    this.todoDetailsService.setTodoItem(todo);
+    this.todoDetailsService.todoItem = todo;
     this.popupServise.open();
   }
 }

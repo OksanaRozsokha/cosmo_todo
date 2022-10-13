@@ -6,9 +6,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AbstractAuthRepository } from './domain/contracts/auth.repository';
-import { AuthRepository } from './data/repositiries/auth.repository';
+import { AuthRepository } from './data/repositiries/auth-repository/auth.repository';
 import { AbstractDBRepository } from './domain/contracts/db.repository';
-import { DBRepository } from './data/repositiries/db.repository';
+import { DBRepository } from './data/repositiries/db-repository/db.repository';
 
 import { AppComponent } from './app.component';
 import { SignInPage } from './presentation/pages/sign-in-page/sign-in.component';
