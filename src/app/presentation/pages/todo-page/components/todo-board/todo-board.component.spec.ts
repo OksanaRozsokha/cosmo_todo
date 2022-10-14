@@ -44,7 +44,7 @@ describe('TodoBoardComponent', () => {
   });
 
   it('onTodoClick should be called on todo click', () => {
-    const todoEl = fixture.debugElement.query(By.css('[data-todo-test="1"]'));
+    const todoEl = fixture.debugElement.query(By.css('[data-todo-in-waiting-test="1"]'));
     todoEl.nativeElement.click();
     fixture.detectChanges();
     // @ts-ignore

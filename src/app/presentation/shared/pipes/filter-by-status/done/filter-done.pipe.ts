@@ -7,8 +7,7 @@ import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 })
 export class FilterDonePipe implements PipeTransform {
 
-  transform(todos: ToDoEntity[]|null): ToDoEntity[] {
-    if (todos == null) return [];
+  transform(todos: ToDoEntity[]): ToDoEntity[] {
     return todos.filter((todo: ToDoEntity) => todo.status === todoStatus.completed);
   }
 }

@@ -6,18 +6,10 @@ import { AngularFireAuthFacade } from './angular-fire-auth.facade';
 import { UserEntity } from '../../../domain/entities/user-entity/user.entity';
 import { UserFactory } from '../../../domain/entities/factories/user-factory/user.factory';
 
-let fireAuthUserStub: User = {
-  displayName: 'Oksana Rozsokha',
-  email: 'email@email.com',
-  phoneNumber: '',
-  photoURL: 'http:/photourl',
-  providerId: '',
-  uid: 'uid',
-  emailVerified: true,
-  isAnonymous: false,
+const fireAuthDataStub = {
   metadata: {
-      creationTime: '',
-      lastSignInTime: '',
+    creationTime: '',
+    lastSignInTime: '',
   },
   providerData: [
       {
@@ -48,6 +40,29 @@ let fireAuthUserStub: User = {
   toJSON: () => Object
 }
 
+const fireAuthUser1Stub: User = {
+  displayName: 'Oksana Rozsokha',
+  email: 'email@email.com',
+  phoneNumber: '',
+  photoURL: 'http:/photourl',
+  providerId: '',
+  uid: 'uid',
+  emailVerified: true,
+  isAnonymous: false,
+  ...fireAuthDataStub
+}
+
+const fireAuthUser2Stub: User = {
+  displayName: null,
+  email: null,
+  phoneNumber: null,
+  photoURL: null,
+  providerId: '',
+  uid: 'uid',
+  emailVerified: true,
+  isAnonymous: false,
+  ...fireAuthDataStub
+}
 
 describe('check AuthFacade', () => {
   let authFacade: AngularFireAuthFacade;
@@ -86,11 +101,23 @@ describe('check AuthFacade', () => {
 
   it('authFacade.getSignedInUser$() return UserEntity in subscription', done => {
     // @ts-ignore
-    Object.getOwnPropertyDescriptor(mockFireAuth, 'authState')?.get?.and.returnValue(of(fireAuthUserStub));
+    Object.getOwnPropertyDescriptor(mockFireAuth, 'authState')?.get?.and.returnValue(of(fireAuthUser1Stub));
 
     authFacade.getSignedInUser$().subscribe(result => {
       let mockCreateUserEntityMethod = mockUserFctory.create;
       mockCreateUserEntityMethod.and.returnValue(new UserEntity('uid', 'Oksana Rozsokha', 'email@email.com', 'http:/photourl', true));
+      expect(result).toBeInstanceOf(UserEntity);
+      done();
+    });
+  });
+
+  it('authFacade.getSignedInUser$() return UserEntity with empty string fields in subscription', done => {
+    // @ts-ignore
+    Object.getOwnPropertyDescriptor(mockFireAuth, 'authState')?.get?.and.returnValue(of(fireAuthUser2Stub));
+
+    authFacade.getSignedInUser$().subscribe(result => {
+      let mockCreateUserEntityMethod = mockUserFctory.create;
+      mockCreateUserEntityMethod.and.returnValue(new UserEntity('uid', '', '', '', true));
       expect(result).toBeInstanceOf(UserEntity);
       done();
     });

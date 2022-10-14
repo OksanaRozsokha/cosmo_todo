@@ -11,7 +11,7 @@ import { IToDo } from '../../entities/interfaces/todo.interface';
 export class TodoService {
   constructor(private dbRepository: AbstractDBRepository) {}
 
-  public getAllTodos$(): Observable<ToDoEntity[]|null> {
+  public getAllTodos$(): Observable<ToDoEntity[]> {
     return this.dbRepository.getAllTodos$();
   }
 

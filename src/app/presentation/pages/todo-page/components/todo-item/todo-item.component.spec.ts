@@ -43,16 +43,16 @@ describe('NewTodoComponent', () => {
   describe('todo component with @Input() is defined with ToDoEntity', () => {
     beforeEach(async () => {
       await _TestBedSetup();
-      component.todo = todoEntity;
       todoEntity =  new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 'todoId');
+      component.todo = todoEntity;
       fixture.detectChanges();
     });
 
-    fit('should create', () => {
+    it('should create', () => {
       expect(component).toBeTruthy();
     });
 
-    fit('update method was called on save button click', () => {
+    it('update method was called on save button click', () => {
       mockTodoService.updateTodo.and.returnValue(Promise.resolve());
       fixture.detectChanges();
 
@@ -68,7 +68,7 @@ describe('NewTodoComponent', () => {
       expect(mockTodoService.updateTodo).toHaveBeenCalledWith(updatedTodo);
     });
 
-    fit('todo is removed on remove button click', () => {
+    it('todo is removed on remove button click', () => {
       mockTodoService.removeTodo.and.returnValue(Promise.resolve());
       fixture.detectChanges();
 
@@ -77,7 +77,7 @@ describe('NewTodoComponent', () => {
       expect(mockTodoService.removeTodo).toHaveBeenCalledWith(component.todo!.id!);
     });
 
-    fit('component fields are prefilled with todo entity fields', () => {
+    it('component fields are prefilled with todo entity fields', () => {
       expect(component.title).toBe(todoEntity.title);
       expect(component.description).toBe(todoEntity.description);
       expect(component.status).toBe(todoEntity.status);
@@ -85,7 +85,7 @@ describe('NewTodoComponent', () => {
 
     });
 
-    fit('save button should be disabled when title is empty', () => {
+    it('save button should be disabled when title is empty', () => {
       const saveBtn = fixture.debugElement.query(By.css('[data-button-test]'));
       const input = fixture.debugElement.query(By.css('[data-input-test]'));
       input.nativeElement.value = '';
@@ -96,7 +96,7 @@ describe('NewTodoComponent', () => {
     });
 
 
-    fit('save button should be disabled when nothing is changed', () => {
+    it('save button should be disabled when nothing is changed', () => {
       const saveBtn = fixture.debugElement.query(By.css('[data-button-test]'));
       component.onTodoChange();
       expect(component.isSaveBtnDisable).toBeTrue();
@@ -113,7 +113,7 @@ describe('NewTodoComponent', () => {
       fixture.detectChanges();
     });
 
-    fit('todo @Input() is undefined and new todo is created on save button click', () => {
+    it('todo @Input() is undefined and new todo is created on save button click', () => {
       mockTodoService.createToDo.and.returnValue(Promise.resolve());
 
       const input = fixture.debugElement.query(By.css('[data-input-test]'));
