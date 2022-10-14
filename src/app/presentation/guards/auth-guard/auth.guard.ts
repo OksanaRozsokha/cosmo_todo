@@ -9,7 +9,7 @@ import { RouterConstants } from 'src/app/common/constants/router.constants';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild {
+export class AuthGuard implements CanActivate {
 
   constructor(private authServise: AuthService,
               private router: Router) {}
@@ -34,12 +34,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       this._isUserSignedIn$().subscribe(isIt => {console.log('ISUSER_SIGNED_IN', isIt);
       })
 
-    return this._isUserSignedIn$();
-  }
-
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this._isUserSignedIn$();
   }
 }

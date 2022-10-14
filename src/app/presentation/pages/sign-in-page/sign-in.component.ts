@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterConstants } from 'src/app/common/constants/router.constants';
 import { AuthService } from '../../../domain/servicies/auth-service/auth.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { AuthService } from '../../../domain/servicies/auth-service/auth.service
       <p class="text cosmo-text">Your awesome tasks manager</p>
     </div>
 
-    <button class="cosmo-btn" (click)="onSignIn()">
+    <button data-btn-test class="cosmo-btn" (click)="onSignIn()">
       <app-icon [icon]="iconName" [width]="35" [height]="35" class="mr-10"></app-icon>
       Sign In with Google</button>
 
@@ -27,7 +28,7 @@ export class SignInPage {
 
   onSignIn(): void {
     this.authService.signInWithGoogle().then(((_) => {
-      this.router.navigate(['/todo-board']);
+      this.router.navigate([`/${RouterConstants.todoBoardPage}`]);
     }))
   }
 

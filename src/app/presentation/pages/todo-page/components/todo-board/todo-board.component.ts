@@ -13,7 +13,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Waiting List</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <app-todo-item-sm *ngFor="let todo of todoList | filterInWaitingList" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <app-todo-item-sm *ngFor="let todo of todoList | filterInWaitingList; let i = index" [todo]="todo" [attr.data-todo-test]="i+1" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </ng-container>
 
         </div>
@@ -39,10 +39,11 @@ export class TodoBoardComponent  {
   constructor(private todoService: TodoService,
               private popupServise: PopupCommunicationsService,
               private todoDetailsService: TodoDetailsService) { }
-  todoList$?: Observable<ToDoEntity[] | null> = this.todoService.getAllTodos$();
+  todoList$: Observable<ToDoEntity[] | null> = this.todoService.getAllTodos$();
 
   onTodoClick(todo: ToDoEntity): void {
     this.todoDetailsService.todoItem = todo;
+    console.log(this.todoDetailsService.todoItem);
     this.popupServise.open();
   }
 }

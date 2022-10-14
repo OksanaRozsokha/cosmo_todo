@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../../../../../domain/servicies/auth-service/auth.service';
 import { UserEntity } from '../../../../../domain/entities/user-entity/user.entity';
 import { Observable } from 'rxjs';
@@ -10,20 +10,20 @@ import { Router } from '@angular/router';
   template: `
     <header class="cosmo-header">
       <div class="container content-wrapper grid-row grid-row--space-between-h grid-row--center-v">
-      <ul *ngIf="isUserMenuVisible" class="cosmo-menu">
+      <ul data-menu-test *ngIf="isUserMenuVisible" class="cosmo-menu">
         <li class="cosmo-menu__item">
-          <button class="cosmo-menu__item-btn text--thin" (click)="signOut()">
+          <button data-sign-out-button-test class="cosmo-menu__item-btn text--thin" (click)="signOut()">
           <app-icon [icon]="iconName" [fill]="iconColor"  [width]="20" [height]="15"></app-icon>Sign Out</button>
         </li>
       </ul>
       <div class="cosmo-greeting-wrapper">
-        <p class="cosmo-greeting mr-15">Hey, <span class="text--bold">{{ (user$ | async)?.fullName }}</span> 🙃</p>
+        <p class="cosmo-greeting mr-15" data-element-test>Hey, <span class="text--bold">{{ (user$ | async)?.fullName }}</span> 🙃</p>
         <p class="cosmo-greeting mr-10">Welcome to</p>
         <h1 class="cosmo-logo">CosmoTodo</h1>
       </div>
 
-      <button class="cosmo-avatar" [id]="avatarWrapperId">
-        <img class="cosmo-avatar__img" [id]="avatarImgId" src="{{ (user$ | async)?.photoUrl}} " alt="user avatar">
+      <button data-button-test class="cosmo-avatar" [id]="avatarWrapperId">
+        <img data-image-avatar-test class="cosmo-avatar__img" [id]="avatarImgId" src="{{ (user$ | async)?.photoUrl}} " alt="user avatar">
       </button>
 
       </div>
@@ -40,7 +40,6 @@ export class HeaderComponent {
   iconName: string = 'sign-out';
   avatarWrapperId: string = 'avatarWrapper';
   avatarImgId: string = 'avatarImg';
-
 
   @HostListener('document:click', ['$event'])
     documentClick(event: MouseEvent) {
@@ -66,6 +65,5 @@ export class HeaderComponent {
 
   toggleUserMenuVisibility(isVisible: boolean) {
     this.isUserMenuVisible = isVisible;
-    console.log('click');
   }
 }

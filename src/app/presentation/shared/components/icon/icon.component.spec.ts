@@ -20,4 +20,5 @@ describe('IconComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

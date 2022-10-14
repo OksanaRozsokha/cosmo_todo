@@ -7,7 +7,7 @@ import { TodoDetailsService } from '../../ui-services/todo-details/todo-details.
    <div class="cosmo-page">
       <app-header class="cosmo-header"></app-header>
       <app-todo-board></app-todo-board>
-      <button class="cosmo-button text--extra-bold" (click)="onCreateTodo()">
+      <button data-btn-test class="cosmo-button text--extra-bold" (click)="onCreateTodo()">
         <app-icon [size]="20"  [icon]="iconName" [fill]="iconColor"></app-icon>
       </button>
       <app-todo-item [todo]="todoDetailsService.todoItem" *ngIf="popupService.isPopupVisible$ | async"></app-todo-item>
