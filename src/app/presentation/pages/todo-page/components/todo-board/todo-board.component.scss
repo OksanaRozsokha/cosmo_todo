@@ -12,6 +12,9 @@
 
 .cosmo-column-title {
     margin-bottom: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     @media (max-width: 385px) {
         font-size: 14px;
