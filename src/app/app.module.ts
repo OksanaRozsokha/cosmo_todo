@@ -23,6 +23,7 @@ import { FilterInWaitingListPipe } from './presentation/shared/pipes/filter-by-s
 import { FilterInProgressPipe } from './presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
 import { FilterCompletedPipe } from './presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
 import { StopPropagationDirective } from './presentation/shared/directives/stop-propagation/stop-propagation.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { StopPropagationDirective } from './presentation/shared/directives/stop-
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     FormsModule,
