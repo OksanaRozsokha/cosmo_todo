@@ -17,13 +17,28 @@
 .cosmo-popup {
     width: 100%;
     max-width: 70%;
-    height: 90vh;
-    max-height: 450px;
+    height: 65vh;
     overflow-y: auto;
     border-radius: 2px;
     overflow: hidden;
     background: $popupColor;
     overflow-y: auto;
+
+    @media (max-height: 715px) {
+        height: 70vh;
+    }
+
+    @media (max-height: 650px) {
+        height: 75vh;
+    }
+
+    @media (max-height: 515px) {
+        height: 80vh;
+    }
+
+    @media (max-height: 470px) {
+        height: 90vh;
+    }
 
     @media (max-width: 1010px) {
         max-width: 85%;
