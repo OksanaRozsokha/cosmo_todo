@@ -3,7 +3,8 @@
 @import 'spaces';
 
 .cosmo-sign-in {
-    background: $general-color;
+    background: $general-color url('../../../../assets/images/cosmo-bg.png')  right bottom no-repeat;
+    background-size: cover;
     min-height: 100vh;
 
     display: flex;

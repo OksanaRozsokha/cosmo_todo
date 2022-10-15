@@ -3,7 +3,9 @@
 
 .cosmo-page {
     position: relative;
-    background: $general-color;
+    background: $general-color url('../../../../assets/images/cosmo-bg.png')  right bottom no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
     min-height: 100vh;
 }
 
