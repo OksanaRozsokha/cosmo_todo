@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/domain/servicies/auth-service/auth.service';
 import { UserEntity } from 'src/app/domain/entities/user-entity/user.entity';
@@ -31,8 +31,6 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this._isUserSignedIn$().subscribe(isIt => {console.log('ISUSER_SIGNED_IN', isIt);
-      })
 
     return this._isUserSignedIn$();
   }

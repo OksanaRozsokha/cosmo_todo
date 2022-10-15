@@ -3,7 +3,6 @@ import { UserEntity } from '../../../domain/entities/user-entity/user.entity';
 import { AbstractAuthRepository } from '../../../domain/contracts/auth.repository';
 import { of } from 'rxjs';
 import { AuthService } from './auth.service';
-import { AuthRepository } from 'src/app/data/repositiries/auth-repository/auth.repository';
 
 const userEntity: UserEntity = new UserEntity('uid', 'Oksana Rozsokha', 'em@em', 'https://url', true);
 

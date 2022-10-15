@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '../../../domain/servicies/auth-service/auth.service';
-import { Router, ActivatedRouteSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserEntity } from 'src/app/domain/entities/user-entity/user.entity';
 import { of, Observable } from 'rxjs';
 import { RouterConstants } from 'src/app/common/constants/router.constants';

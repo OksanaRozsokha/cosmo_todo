@@ -34,7 +34,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
           <select data-select-test [(ngModel)]="status" (change)="onTodoChange()" class="cosmo-field-block__select">
             <option [value]="todoStatusObj.inWaitingList">In waiting list</option>
             <option [value]="todoStatusObj.inProgress">In cosmo progress</option>
-            <option [value]="todoStatusObj.completed">Done</option>
+            <option [value]="todoStatusObj.completed">Completed</option>
           </select>
         </label>
         </div>

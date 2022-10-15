@@ -5,8 +5,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { AuthService } from '../../../../../domain/servicies/auth-service/auth.service';
 import { Router } from '@angular/router';
-import { of, Observable } from 'rxjs';
-import { UserEntity } from '../../../../../domain/entities/user-entity/user.entity';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FilterInWaitingListPipe } from 'src/app/presentation/shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 import { FilterInProgressPipe } from '../../../../shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
-import { FilterDonePipe } from '../../../../shared/pipes/filter-by-status/done/filter-done.pipe';
+import { FilterCompletedPipe } from '../../../../shared/pipes/filter-by-status/completed/filter-completed.pipe';
 
 describe('TodoBoardComponent', () => {
   let component: TodoBoardComponent;
@@ -23,7 +23,7 @@ describe('TodoBoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TodoBoardComponent, FilterInWaitingListPipe, FilterInProgressPipe, FilterDonePipe ],
+      declarations: [ TodoBoardComponent, FilterInWaitingListPipe, FilterInProgressPipe, FilterCompletedPipe ],
       providers: [
         {provide: TodoService, useValue: mockTodoService},
         {provide: PopupCommunicationsService, useValue: mockPopupService},

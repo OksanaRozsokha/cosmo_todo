@@ -1,6 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { AbstractAuthRepository } from '../../../domain/contracts/auth.repository';
-import { AngularFireAuthFacade } from '../../firebase-facade/auth-facade/angular-fire-auth.facade';
 import { of } from 'rxjs';
 import { AbstractDBRepository } from '../../../domain/contracts/db.repository';
 import { DBRepository } from './db.repository';

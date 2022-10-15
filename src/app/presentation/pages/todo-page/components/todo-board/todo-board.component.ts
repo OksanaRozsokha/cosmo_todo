@@ -18,7 +18,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
 
         </div>
         <div class="grid-row__item-3">
-          <h4 class="cosmo-column-title">In Progress</h4>
+          <h4 class="cosmo-column-title">In Cosmo Progress</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
             <app-todo-item-sm [attr.data-todo-in-progress-test]="i+1" *ngFor="let todo of todoList | filterInProgress; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </ng-container>
@@ -26,7 +26,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">Completed</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <app-todo-item-sm [attr.data-todo-done-test]="i+1" *ngFor="let todo of todoList | filterDone; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <app-todo-item-sm [attr.data-todo-completed-test]="i+1" *ngFor="let todo of todoList | filterCompleted; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </ng-container>
         </div>
       </div>
@@ -48,7 +48,6 @@ export class TodoBoardComponent implements OnInit {
 
   onTodoClick(todo: ToDoEntity): void {
     this.todoDetailsService.todoItem = todo;
-    console.log(this.todoDetailsService.todoItem);
     this.popupServise.open();
   }
 }

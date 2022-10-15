@@ -1,14 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import {  isEmpty, Observable, of } from 'rxjs';
+import {  of } from 'rxjs';
 import { AngularFireDataBasaFacade } from './angular-fire-db.facade';
-import { AngularFireDatabase, AngularFireList, ChildEvent, SnapshotAction } from '@angular/fire/compat/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ToDoEntity } from '../../../domain/entities/todo-entity/todo.entity';
 import { AngularFireAuthFacade } from '../auth-facade/angular-fire-auth.facade';
-import { FirebaseOperation } from '@angular/fire/compat/database/interfaces';
-import firebase from 'firebase/compat';
 import { todoStatus } from '../../../domain/entities/interfaces/todo.interface';
 import { UserEntity } from '../../../domain/entities/user-entity/user.entity';
-import { verify, mock, when, anything, instance } from 'ts-mockito';
 
 const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 'todoId');
 const userEntity: UserEntity = new UserEntity('uid', 'Oksana Rozsokha', 'em@em', 'https://url', true);

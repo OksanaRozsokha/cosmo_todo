@@ -3,9 +3,9 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 
 @Pipe({
-  name: 'filterDone'
+  name: 'filterCompleted'
 })
-export class FilterDonePipe implements PipeTransform {
+export class FilterCompletedPipe implements PipeTransform {
 
   transform(todos: ToDoEntity[]): ToDoEntity[] {
     return todos.filter((todo: ToDoEntity) => todo.status === todoStatus.completed);

@@ -25,7 +25,6 @@ export class AngularFireAuthFacade {
 
     public getSignedInUser$(): Observable<UserEntity|null> {
         return this.auth.authState.pipe(map(firebaseUser => {
-            console.log(firebaseUser)
             if (!firebaseUser) return null;
             return this.usesrFactory.create(
                 {

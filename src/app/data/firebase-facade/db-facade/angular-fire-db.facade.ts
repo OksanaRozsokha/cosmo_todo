@@ -17,7 +17,6 @@ export class AngularFireDataBasaFacade {
         return this.authfacade.getSignedInUser$().pipe(
             mergeMap((user: UserEntity|null) => {
                 if (!user?.uid) return of([]);
-                console.log('USER ID IN DB', user.uid);
                 return this.db.list<ToDoEntity>(`tasks/${user?.uid}`).valueChanges()
             })
         );

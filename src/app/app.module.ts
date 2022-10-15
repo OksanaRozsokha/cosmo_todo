@@ -21,7 +21,7 @@ import { TodoItemComponent } from './presentation/pages/todo-page/components/tod
 import { TodoItemSmComponent } from './presentation/pages/todo-page/components/todo-item-sm/todo-item-sm.component';
 import { FilterInWaitingListPipe } from './presentation/shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 import { FilterInProgressPipe } from './presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
-import { FilterDonePipe } from './presentation/shared/pipes/filter-by-status/done/filter-done.pipe';
+import { FilterCompletedPipe } from './presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
 import { StopPropagationDirective } from './presentation/shared/directives/stop-propagation/stop-propagation.directive';
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { StopPropagationDirective } from './presentation/shared/directives/stop-
     TodoItemSmComponent,
     FilterInWaitingListPipe,
     FilterInProgressPipe,
-    FilterDonePipe,
+    FilterCompletedPipe,
     StopPropagationDirective
   ],
   imports: [
