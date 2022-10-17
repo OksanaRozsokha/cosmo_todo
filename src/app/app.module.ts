@@ -24,6 +24,7 @@ import { FilterInProgressPipe } from './presentation/shared/pipes/filter-by-stat
 import { FilterCompletedPipe } from './presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
 import { StopPropagationDirective } from './presentation/shared/directives/stop-propagation/stop-propagation.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     FormsModule,
-
+    DragDropModule
   ],
   providers: [
     {provide: AbstractAuthRepository, useClass: AuthRepository},
