@@ -3,6 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
+    "site": "cosmotodo",
     "public": "dist/cosmo-todo1",
     "ignore": [
       "firebase.json",
