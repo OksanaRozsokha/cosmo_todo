@@ -4,6 +4,7 @@ import { UserEntity } from '../../../../../domain/entities/user-entity/user.enti
 import { Observable } from 'rxjs';
 import { RouterConstants } from '../../../../../common/constants/router.constants';
 import { Router } from '@angular/router';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-header',
@@ -32,7 +33,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  constructor(private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.user$.subscribe((user: UserEntity|null) => {
+      if (!user) this._redirectToSignInPage();
+    });
+  }
+
   user$: Observable<UserEntity|null> = this.authService.getSignInUser$();
   isUserMenuVisible: boolean = false;
   signInPageRoute: string = RouterConstants.signInPage;
@@ -51,19 +62,19 @@ export class HeaderComponent {
       }
     }
 
-  constructor(private authService: AuthService,
-              private router: Router
-    ) { }
-
 
   signOut(): void {
     this.authService.signOut().then(_ => {
       this.toggleUserMenuVisibility(false);
-      this.router.navigate([`/${RouterConstants.signInPage}`]);
+      this._redirectToSignInPage();
     });
   }
 
   toggleUserMenuVisibility(isVisible: boolean) {
     this.isUserMenuVisible = isVisible;
+  }
+
+  private _redirectToSignInPage(): void {
+    this.router.navigate([`/${RouterConstants.signInPage}`]);
   }
 }
