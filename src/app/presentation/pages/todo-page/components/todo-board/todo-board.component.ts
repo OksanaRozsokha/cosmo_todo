@@ -4,12 +4,8 @@ import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service'
 import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 import { TodoDetailsService } from '../../../../ui-services/todo-details/todo-details.service';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
-import { SortByIndexPipe } from '../../../../shared/pipes/sort-by-index/sort-by-index.pipe';
-import { FilterCompletedPipe } from 'src/app/presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
-import { FilterInProgressPipe } from 'src/app/presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
-import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 
 @Component({
   selector: 'app-todo-board',
@@ -20,8 +16,8 @@ import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-stat
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Waiting List</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <div class="cosmo-todo-list" cdkDropList id="inWaitingList" [cdkDropListData]="todoList | filterInWaitingList | sortByIndex" (cdkDropListDropped)="drop($event)">
-              <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-in-waiting-test]="i+1" *ngFor="let todo of todoList | filterInWaitingList | sortByIndex; let i = index" [todo]="todo"  (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <div class="cosmo-todo-list" cdkDropList [id]="status.inWaitingList" [cdkDropListData]="(todoList | filterInWaitingList) | sortByIndex" (cdkDropListDropped)="onDropTodo($event)">
+              <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-in-waiting-test]="i+1" *ngFor="let todo of (todoList | filterInWaitingList) | sortByIndex; let i = index" [todo]="todo"  (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
             </div>
           </ng-container>
         </div>
@@ -29,8 +25,8 @@ import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-stat
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Cosmo Progress</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <div class="cosmo-todo-list" cdkDropList id="inProgress"  [cdkDropListData]="todoList | filterInProgress  | sortByIndex" (cdkDropListDropped)="drop($event)">
-              <app-todo-item-sm cdkDrag [cdkDragData]="todo"  [attr.data-todo-in-progress-test]="i+1" *ngFor="let todo of todoList | filterInProgress | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <div class="cosmo-todo-list" cdkDropList [id]="status.inProgress"  [cdkDropListData]="(todoList | filterInProgress)  | sortByIndex" (cdkDropListDropped)="onDropTodo($event)">
+              <app-todo-item-sm cdkDrag [cdkDragData]="todo"  [attr.data-todo-in-progress-test]="i+1" *ngFor="let todo of (todoList | filterInProgress) | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
             </div>
           </ng-container>
         </div>
@@ -38,8 +34,8 @@ import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-stat
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">Completed</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-          <div class="cosmo-todo-list" cdkDropList id="Completed"  [cdkDropListData]="todoList | filterCompleted | sortByIndex" (cdkDropListDropped)="drop($event)">
-            <app-todo-item-sm cdkDrag [cdkDragData]="todo" y [attr.data-todo-completed-test]="i+1" *ngFor="let todo of todoList | filterCompleted | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+          <div class="cosmo-todo-list" cdkDropList [id]="status.completed"  [cdkDropListData]="(todoList | filterCompleted) | sortByIndex" (cdkDropListDropped)="onDropTodo($event)">
+            <app-todo-item-sm cdkDrag [cdkDragData]="todo" y [attr.data-todo-completed-test]="i+1" *ngFor="let todo of (todoList | filterCompleted) | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </div>
           </ng-container>
         </div>
@@ -49,57 +45,82 @@ import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-stat
   `,
   styleUrls: ['./todo-board.component.scss']
 })
+
 export class TodoBoardComponent implements OnInit {
   constructor(private todoService: TodoService,
               private popupServise: PopupCommunicationsService,
               private todoDetailsService: TodoDetailsService,
-              // private sortByIndexPipe: SortByIndexPipe,
-
               ) { }
 
   todoList$!: Observable<ToDoEntity[]>
+  status = {
+    inWaitingList: todoStatus.inWaitingList,
+    inProgress: todoStatus.inProgress,
+    completed: todoStatus.completed,
+  }
+
 
   ngOnInit(): void {
     this.todoList$ = this.todoService.getAllTodos$();
   }
 
-  onTodoClick(todo: ToDoEntity): void {
+  public onTodoClick(todo: ToDoEntity): void {
     this.todoDetailsService.todoItem = todo;
     this.popupServise.open();
   }
 
-  drop(event: CdkDragDrop<ToDoEntity[]>) {
-    console.log(event);
-    let todoItem: ToDoEntity = event.item.data;
-    switch (event.container.id) {
-      case 'inWaitingList':
-        todoItem.status = todoStatus.inWaitingList;
-      break;
+  public onDropTodo(event: CdkDragDrop<ToDoEntity[]>) {
+    let droppedTodo: ToDoEntity = event.item.data;
+    let prevContainer: CdkDropList<ToDoEntity[]> = event.previousContainer;
+    let currContainer: CdkDropList<ToDoEntity[]> = event.container;
+    let prevIndex: number = event.previousIndex;
+    let currIndex: number = event.currentIndex;
 
-      case 'inProgress':
-        todoItem.status = todoStatus.inProgress;
-      break;
+    droppedTodo.status = currContainer.id as todoStatus;
+    droppedTodo.indexByStatus = currIndex;
 
-      case 'Completed':
-        todoItem.status = todoStatus.completed;
-      break;
-    }
-
-    this.todoService.updateTodo(event.item.data).then(_ => {
-      if (event.previousContainer === event.container) {
-        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.todoService.updateTodo(droppedTodo).then(_ => {
+      this._updateTodosIndexes(droppedTodo, prevContainer, currContainer, prevIndex, currIndex);
+      if (prevContainer === currContainer) {
+        moveItemInArray(currContainer.data, prevIndex, currIndex);
       } else {
         transferArrayItem(
-          event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex,
+          prevContainer.data,
+          currContainer.data,
+          prevIndex,
+          currIndex,
         );
       }
     });
   }
 
+  private _updateTodosIndexes(selectedTodo: ToDoEntity, prevContainer: CdkDropList<ToDoEntity[]>,
+                              currContainer: CdkDropList<ToDoEntity[]>,
+                              todoPrevIndex: number,
+                              todoCurrIndex: number): void {
+    this._updateTodosIndexesOfPrevContainer(selectedTodo, prevContainer, todoPrevIndex);
+    this._updateTodosIndexesOfCurrContainer(selectedTodo, currContainer, todoCurrIndex);
+  }
 
+  private _updateTodosIndexesOfPrevContainer(selectedTodo: ToDoEntity, prevContainer: CdkDropList<ToDoEntity[]>, todoPrevIndex: number) {
+    let nextAfterDraggedTodos: ToDoEntity[] = prevContainer.data.filter(todo => todo.indexByStatus >= todoPrevIndex && JSON.stringify(todo) !== JSON.stringify(selectedTodo));
+    for (let i = 0; i < nextAfterDraggedTodos.length; i++) {
+      let todo: ToDoEntity = nextAfterDraggedTodos[i];
+      if (todo.indexByStatus > 0) {
+        todo.indexByStatus -= 1;
+      }
+      this.todoService.updateTodo(todo);
+    }
+  }
+
+  private _updateTodosIndexesOfCurrContainer(selectedTodo: ToDoEntity, currContainer: CdkDropList<ToDoEntity[]>, todoCurrIndex: number) {
+    let nextAfterDroppedTodos: ToDoEntity[] = currContainer.data.filter(todo => todo.indexByStatus >= todoCurrIndex && JSON.stringify(todo) !== JSON.stringify(selectedTodo));
+    for (let i = 0; i < nextAfterDroppedTodos.length; i++) {
+      let todo: ToDoEntity = nextAfterDroppedTodos[i];
+      todo.indexByStatus += 1;
+      this.todoService.updateTodo(todo);
+    }
+  }
 }
 
 

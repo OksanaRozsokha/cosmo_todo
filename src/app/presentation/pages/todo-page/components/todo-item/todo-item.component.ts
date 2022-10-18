@@ -75,7 +75,8 @@ export class TodoItemComponent implements OnInit {
             ) { }
 
   async ngOnInit(): Promise<void> {
-    await this._setLengthOfFilteredTodosByStatus();
+    await this._setLengthOfTodoListsFilteredByStatus();
+
     this._setComponentFields();
   }
 
@@ -96,6 +97,7 @@ export class TodoItemComponent implements OnInit {
     this.todo!.description = this.description;
     this.todo!.status = this.status;
     this.todo!.imageUrl = this.imageUrl;
+    this.todo!.indexByStatus = this.indexByStatus;
 
     this.todoServise.updateTodo(this.todo!).then(_ => {
       this.popupServise.close();
@@ -144,12 +146,11 @@ export class TodoItemComponent implements OnInit {
     this.onTodoChange();
   }
 
-  private _setLengthOfFilteredTodosByStatus(): void {
-    this.todoServise.getAllTodos$().subscribe((todoList: ToDoEntity[]) => {
-      this.inWaitingListTodosLength = this.filterInWaitingListPipe.transform(todoList).length;
-      this.inProgressTodosLength = this.filterInProgressPipe.transform(todoList).length;
-      this.completedTodosLength = this.filterCompletedPipe.transform(todoList).length;
-    });
+  private async _setLengthOfTodoListsFilteredByStatus(): Promise<void> {
+    let todoList: ToDoEntity[] = await firstValueFrom(this.todoServise.getAllTodos$());
+    this.inWaitingListTodosLength = this.filterInWaitingListPipe.transform(todoList).length;
+    this.inProgressTodosLength = this.filterInProgressPipe.transform(todoList).length;
+    this.completedTodosLength = this.filterCompletedPipe.transform(todoList).length;
   }
 
   private _setComponentFields(): void {
