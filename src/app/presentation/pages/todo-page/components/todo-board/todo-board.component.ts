@@ -6,6 +6,10 @@ import { TodoDetailsService } from '../../../../ui-services/todo-details/todo-de
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
+import { SortByIndexPipe } from '../../../../shared/pipes/sort-by-index/sort-by-index.pipe';
+import { FilterCompletedPipe } from 'src/app/presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
+import { FilterInProgressPipe } from 'src/app/presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
+import { FilterInWaitingListPipe } from '../../../../shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 
 @Component({
   selector: 'app-todo-board',
@@ -16,8 +20,8 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Waiting List</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <div class="cosmo-todo-list" cdkDropList id="inWaitingList" [cdkDropListData]="todoList | filterInWaitingList" (cdkDropListDropped)="drop($event)">
-              <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-in-waiting-test]="i+1" *ngFor="let todo of todoList | filterInWaitingList; let i = index" [todo]="todo"  (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <div class="cosmo-todo-list" cdkDropList id="inWaitingList" [cdkDropListData]="todoList | filterInWaitingList | sortByIndex" (cdkDropListDropped)="drop($event)">
+              <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-in-waiting-test]="i+1" *ngFor="let todo of todoList | filterInWaitingList | sortByIndex; let i = index" [todo]="todo"  (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
             </div>
           </ng-container>
         </div>
@@ -25,8 +29,8 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Cosmo Progress</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-            <div class="cosmo-todo-list" cdkDropList id="inProgress"  [cdkDropListData]="todoList | filterInProgress" (cdkDropListDropped)="drop($event)">
-              <app-todo-item-sm cdkDrag [cdkDragData]="todo"  [attr.data-todo-in-progress-test]="i+1" *ngFor="let todo of todoList | filterInProgress; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+            <div class="cosmo-todo-list" cdkDropList id="inProgress"  [cdkDropListData]="todoList | filterInProgress  | sortByIndex" (cdkDropListDropped)="drop($event)">
+              <app-todo-item-sm cdkDrag [cdkDragData]="todo"  [attr.data-todo-in-progress-test]="i+1" *ngFor="let todo of todoList | filterInProgress | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
             </div>
           </ng-container>
         </div>
@@ -34,8 +38,8 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">Completed</h4>
           <ng-container *ngIf="todoList$ | async as todoList">
-          <div class="cosmo-todo-list" cdkDropList id="Completed"  [cdkDropListData]="todoList | filterCompleted" (cdkDropListDropped)="drop($event)">
-            <app-todo-item-sm cdkDrag [cdkDragData]="todo" y [attr.data-todo-completed-test]="i+1" *ngFor="let todo of todoList | filterCompleted; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
+          <div class="cosmo-todo-list" cdkDropList id="Completed"  [cdkDropListData]="todoList | filterCompleted | sortByIndex" (cdkDropListDropped)="drop($event)">
+            <app-todo-item-sm cdkDrag [cdkDragData]="todo" y [attr.data-todo-completed-test]="i+1" *ngFor="let todo of todoList | filterCompleted | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </div>
           </ng-container>
         </div>
@@ -48,7 +52,10 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 export class TodoBoardComponent implements OnInit {
   constructor(private todoService: TodoService,
               private popupServise: PopupCommunicationsService,
-              private todoDetailsService: TodoDetailsService) { }
+              private todoDetailsService: TodoDetailsService,
+              // private sortByIndexPipe: SortByIndexPipe,
+
+              ) { }
 
   todoList$!: Observable<ToDoEntity[]>
 

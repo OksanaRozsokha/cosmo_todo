@@ -19,7 +19,7 @@ describe('TodoBoardComponent', () => {
   let mockTodoService: jasmine.SpyObj<TodoService>  = jasmine.createSpyObj<TodoService>('mockTodoService', ['getAllTodos$']);
   let mockPopupService: jasmine.SpyObj<PopupCommunicationsService> = jasmine.createSpyObj<PopupCommunicationsService>('mockPopupService', ['open']);
   let mockTodoDetailsService: jasmine.SpyObj<TodoDetailsService> = jasmine.createSpyObj<TodoDetailsService>('mockTodoDetailsService', [], ['todoItem']);
-  const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 'todoId');
+  const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 0, 'todoId');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

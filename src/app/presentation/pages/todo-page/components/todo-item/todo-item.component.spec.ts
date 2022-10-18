@@ -43,7 +43,7 @@ describe('NewTodoComponent', () => {
   describe('todo component with @Input() is defined with ToDoEntity', () => {
     beforeEach(async () => {
       await _TestBedSetup();
-      todoEntity =  new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 'todoId');
+      todoEntity =  new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 0, 'todoId');
       component.todo = todoEntity;
       fixture.detectChanges();
     });
@@ -64,7 +64,7 @@ describe('NewTodoComponent', () => {
       const saveBtn = fixture.debugElement.query(By.css('[data-button-test]'));
       saveBtn.nativeElement.click();
 
-      const updatedTodo: ToDoEntity = new ToDoEntity('new value', todoEntity.description, todoEntity.imageUrl, todoEntity.status, todoEntity.id);
+      const updatedTodo: ToDoEntity = new ToDoEntity('new value', todoEntity.description, todoEntity.imageUrl, todoEntity.status, todoEntity.indexByStatus, todoEntity.id);
       expect(mockTodoService.updateTodo).toHaveBeenCalledWith(updatedTodo);
     });
 
@@ -128,7 +128,9 @@ describe('NewTodoComponent', () => {
         title: component.title,
         description: component.description,
         imageUrl: component.imageUrl,
-        status: component.status
+        status: component.status,
+        // TODO: change for component indexByStatus value
+        indexByStatus: 0
       };
 
       expect(mockTodoService.createToDo).toHaveBeenCalledWith(objToCreateTodo);

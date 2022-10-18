@@ -19,7 +19,8 @@ describe('Check ToDoFactory', () => {
         title: 'title',
         description: 'description',
         imageUrl: 'https://imgurl',
-        status: todoStatus.inWaitingList
+        status: todoStatus.inWaitingList,
+        indexByStatus: 0,
     });
 
     expect(createTodo).toBeInstanceOf(ToDoEntity);

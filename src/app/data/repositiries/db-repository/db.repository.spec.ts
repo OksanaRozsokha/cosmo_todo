@@ -7,7 +7,7 @@ import { ToDoFactory } from '../../../domain/entities/factories/todo-factory/tod
 import { ToDoEntity } from '../../../domain/entities/todo-entity/todo.entity';
 import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 
-const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 'todoId');
+const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 0, 'todoId');
 
 describe('check AuthRepository', () => {
    let dbRepository: AbstractDBRepository;

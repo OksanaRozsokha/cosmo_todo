@@ -25,6 +25,7 @@ import { FilterCompletedPipe } from './presentation/shared/pipes/filter-by-statu
 import { StopPropagationDirective } from './presentation/shared/directives/stop-propagation/stop-propagation.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SortByIndexPipe } from './presentation/shared/pipes/sort-by-index/sort-by-index.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FilterInWaitingListPipe,
     FilterInProgressPipe,
     FilterCompletedPipe,
-    StopPropagationDirective
+    StopPropagationDirective,
+    SortByIndexPipe
   ],
   imports: [
     BrowserModule,

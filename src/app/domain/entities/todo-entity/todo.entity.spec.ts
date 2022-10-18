@@ -5,7 +5,7 @@ describe('Check ToDoEntity', () => {
   let toDoEntity: ToDoEntity;
 
   beforeEach(() => {
-    toDoEntity = new ToDoEntity('title', 'description', 'https://url', todoStatus.inWaitingList);
+    toDoEntity = new ToDoEntity('title', 'description', 'https://url', todoStatus.inWaitingList, 0);
   });
 
   it('should be created', () => {

@@ -7,7 +7,7 @@ import { AngularFireAuthFacade } from '../auth-facade/angular-fire-auth.facade';
 import { todoStatus } from '../../../domain/entities/interfaces/todo.interface';
 import { UserEntity } from '../../../domain/entities/user-entity/user.entity';
 
-const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 'todoId');
+const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 0, 'todoId');
 const userEntity: UserEntity = new UserEntity('uid', 'Oksana Rozsokha', 'em@em', 'https://url', true);
 
 export class AngularFireDatabaseMock {

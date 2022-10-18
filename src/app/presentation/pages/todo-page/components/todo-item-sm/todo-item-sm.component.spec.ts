@@ -17,7 +17,7 @@ describe('TodoItemSmComponent', () => {
 
     fixture = TestBed.createComponent(TodoItemSmComponent);
     component = fixture.componentInstance;
-    component.todo = new ToDoEntity('title', '', '', todoStatus.inProgress, 'todoId');
+    component.todo = new ToDoEntity('title', '', '', todoStatus.inProgress,  0, 'todoId');
     fixture.detectChanges();
   });
 

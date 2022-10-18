@@ -9,4 +9,5 @@ export interface IToDo {
     description: string;
     imageUrl: string;
     status: todoStatus;
+    indexByStatus: number,
 }

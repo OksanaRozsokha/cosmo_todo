@@ -21,7 +21,7 @@ describe('TodoDetailsService', () => {
   });
 
   it ('todoItem should set and get correct some value with type of ToDoEntity', () => {
-    const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 'todoId');
+    const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inProgress, 0, 'todoId');
     service.todoItem = todoEntity;
     expect(service.todoItem).toEqual(todoEntity);
   });

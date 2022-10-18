@@ -9,6 +9,6 @@ import { ToDoEntity } from '../../todo-entity/todo.entity';
 
 export class ToDoFactory implements IFactory<IToDo, ToDoEntity> {
     public create(argument: IToDo): ToDoEntity {
-        return  new ToDoEntity(argument.title, argument.description, argument.imageUrl, argument.status);
+        return  new ToDoEntity(argument.title, argument.description, argument.imageUrl, argument.status, argument.indexByStatus);
     }
 }

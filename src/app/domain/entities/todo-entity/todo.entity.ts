@@ -5,6 +5,7 @@ export class ToDoEntity implements IToDo {
         public description: string,
         public imageUrl: string,
         public status: todoStatus,
-        public id: string|null = null
+        public indexByStatus: number,
+        public id: string|null = null,
     ) {}
 }

@@ -1,8 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service';
+import { FilterCompletedPipe } from 'src/app/presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
+import { FilterInProgressPipe } from 'src/app/presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
+import { FilterInWaitingListPipe } from 'src/app/presentation/shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 import { todoStatus } from '../../../../../domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from '../../../../../domain/entities/todo-entity/todo.entity';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-todo-item',
@@ -31,7 +35,7 @@ import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-
         <label class="cosmo-field-block">
           <h3 class="cosmo-field-block__title">Choose status:</h3>
 
-          <select data-select-test [(ngModel)]="status" (change)="onTodoChange()" class="cosmo-field-block__select">
+          <select data-select-test [(ngModel)]="status" (change)="onStatusChange()" class="cosmo-field-block__select">
             <option [value]="todoStatusObj.inWaitingList">In waiting list</option>
             <option [value]="todoStatusObj.inProgress">In cosmo progress</option>
             <option [value]="todoStatusObj.completed">Completed</option>
@@ -57,17 +61,22 @@ export class TodoItemComponent implements OnInit {
   description!: string;
   status!: todoStatus;
   imageUrl!: string;
+  indexByStatus!: number;
+  inWaitingListTodosLength!: number;
+  inProgressTodosLength!: number;
+  completedTodosLength!: number;
 
   constructor(
               private todoServise: TodoService,
-              private popupServise: PopupCommunicationsService
+              private popupServise: PopupCommunicationsService,
+              private filterCompletedPipe: FilterCompletedPipe,
+              private filterInProgressPipe: FilterInProgressPipe,
+              private filterInWaitingListPipe: FilterInWaitingListPipe
             ) { }
 
-  ngOnInit(): void {
-    this.title = !!this.todo ? this.todo.title : '';
-    this.description = !!this.todo ? this.todo.description : '';
-    this.status = !!this.todo ? this.todo.status : this.todoStatusObj.inWaitingList;
-    this.imageUrl = !!this.todo ? this.todo.imageUrl : '';
+  async ngOnInit(): Promise<void> {
+    await this._setLengthOfFilteredTodosByStatus();
+    this._setComponentFields();
   }
 
   private _createTodo(): void {
@@ -75,7 +84,8 @@ export class TodoItemComponent implements OnInit {
       title: this.title,
       description: this.description,
       imageUrl: this.imageUrl,
-      status: this.status
+      status: this.status,
+      indexByStatus: this.indexByStatus
     }).then(_ => {
       this.popupServise.close();
     });
@@ -112,7 +122,41 @@ export class TodoItemComponent implements OnInit {
       this.imageUrl === this.todo.imageUrl;
   }
 
-  onTodoChange(): void {
+  public onTodoChange(): void {
     this.isSaveBtnDisable = this._checkIsBtnDisable();
   }
-}
+
+  public onStatusChange(): void {
+    if (!(!!this.todo && (this.todo.status === this.status))) {
+      switch (this.status) {
+        case todoStatus.inWaitingList:
+          this.indexByStatus = this.inWaitingListTodosLength;
+          break;
+        case todoStatus.inProgress:
+          this.indexByStatus = this.inProgressTodosLength;
+          break;
+        case todoStatus.completed:
+          this.indexByStatus = this.completedTodosLength;
+          break;
+      }
+    }
+
+    this.onTodoChange();
+  }
+
+  private _setLengthOfFilteredTodosByStatus(): void {
+    this.todoServise.getAllTodos$().subscribe((todoList: ToDoEntity[]) => {
+      this.inWaitingListTodosLength = this.filterInWaitingListPipe.transform(todoList).length;
+      this.inProgressTodosLength = this.filterInProgressPipe.transform(todoList).length;
+      this.completedTodosLength = this.filterCompletedPipe.transform(todoList).length;
+    });
+  }
+
+  private _setComponentFields(): void {
+    this.title = !!this.todo ? this.todo.title : '';
+    this.description = !!this.todo ? this.todo.description : '';
+    this.status = !!this.todo ? this.todo.status : this.todoStatusObj.inWaitingList;
+    this.imageUrl = !!this.todo ? this.todo.imageUrl : '';
+    this.indexByStatus = !!this.todo ? this.todo.indexByStatus : this.inWaitingListTodosLength;
+  }
+ }
