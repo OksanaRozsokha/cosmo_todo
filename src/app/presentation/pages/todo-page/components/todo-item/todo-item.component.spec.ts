@@ -9,10 +9,11 @@ import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { IToDo } from '../../../../../domain/entities/interfaces/todo.interface';
+import { TodoCommunicationsService } from '../../../../ui-services/todo-details/todo-communications.service';
 
 
 
-describe('NewTodoComponent', () => {
+describe('TodoItem', () => {
   let component: TodoItemComponent;
   let fixture: ComponentFixture<TodoItemComponent>;
   let mockTodoService: jasmine.SpyObj<TodoService> = jasmine.createSpyObj<TodoService>('mockTodoService', [
@@ -23,6 +24,7 @@ describe('NewTodoComponent', () => {
   let mockPopupService: jasmine.SpyObj<PopupCommunicationsService> = jasmine.createSpyObj<PopupCommunicationsService>('mockPopupService', [
     'close'
   ]);
+  let mockTodoCommunicationsService: jasmine.SpyObj<TodoCommunicationsService> = jasmine.createSpyObj<TodoCommunicationsService>('mockTodoCommunicationsService', ['getTodoListFilteredByStatus', 'emitNewTodoCreated', 'emitTodoChangedStatus'])
   let todoEntity: ToDoEntity;
 
   async function _TestBedSetup() {
@@ -31,6 +33,7 @@ describe('NewTodoComponent', () => {
       providers: [
         {provide: TodoService, useValue: mockTodoService},
         {provide: PopupCommunicationsService, useValue: mockPopupService},
+        {provide: TodoCommunicationsService, useValue: mockTodoCommunicationsService}
       ],
       declarations: [ TodoItemComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -114,7 +117,7 @@ describe('NewTodoComponent', () => {
     });
 
     it('todo @Input() is undefined and new todo is created on save button click', () => {
-      mockTodoService.createToDo.and.returnValue(Promise.resolve());
+      mockTodoService.createToDo.and.returnValue(Promise.resolve(todoEntity));
 
       const input = fixture.debugElement.query(By.css('[data-input-test]'));
       input.nativeElement.value = 'new value';
@@ -129,8 +132,7 @@ describe('NewTodoComponent', () => {
         description: component.description,
         imageUrl: component.imageUrl,
         status: component.status,
-        // TODO: change for component indexByStatus value
-        indexByStatus: 0
+        indexByStatus: component.indexByStatus
       };
 
       expect(mockTodoService.createToDo).toHaveBeenCalledWith(objToCreateTodo);

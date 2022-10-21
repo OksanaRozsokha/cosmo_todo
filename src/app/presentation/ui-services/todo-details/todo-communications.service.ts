@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, first, firstValueFrom, Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { ToDoEntity } from '../../../domain/entities/todo-entity/todo.entity';
 import { TodoService } from '../../../domain/servicies/todo-service/todo.service';
 import { todoStatus } from '../../../domain/entities/interfaces/todo.interface';

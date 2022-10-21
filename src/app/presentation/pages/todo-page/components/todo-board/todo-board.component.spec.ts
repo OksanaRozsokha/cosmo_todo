@@ -9,23 +9,26 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TodoCommunicationsService } from '../../../../ui-services/todo-details/todo-communications.service';
+import { SortByIndexPipe } from '../../../../shared/pipes/sort-by-index/sort-by-index.pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 describe('TodoBoardComponent', () => {
   let component: TodoBoardComponent;
   let fixture: ComponentFixture<TodoBoardComponent>;
   let mockTodoService: jasmine.SpyObj<TodoService>  = jasmine.createSpyObj<TodoService>('mockTodoService', ['getAllTodos$']);
   let mockPopupService: jasmine.SpyObj<PopupCommunicationsService> = jasmine.createSpyObj<PopupCommunicationsService>('mockPopupService', ['open']);
-  let mockTodoCommunicationsService: jasmine.SpyObj<TodoCommunicationsService> = jasmine.createSpyObj<TodoCommunicationsService>('mockTodoCommunicationService', [], ['todoItem']);
+  let mockTodoCommunicationsService: jasmine.SpyObj<TodoCommunicationsService> = jasmine.createSpyObj<TodoCommunicationsService>('mockTodoCommunicationService', [], ['todoItem', 'newTodoCtreated$', 'todoChangedStatus$']);
   const todoEntity: ToDoEntity = new ToDoEntity('title', 'desc', 'https://url', todoStatus.inWaitingList, 0, 'todoId');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TodoBoardComponent ],
+      declarations: [ TodoBoardComponent, SortByIndexPipe ],
       providers: [
         {provide: TodoService, useValue: mockTodoService},
         {provide: PopupCommunicationsService, useValue: mockPopupService},
         {provide: TodoCommunicationsService, useValue: mockTodoCommunicationsService},
       ],
+      imports: [DragDropModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -33,6 +36,11 @@ describe('TodoBoardComponent', () => {
     fixture = TestBed.createComponent(TodoBoardComponent);
     component = fixture.componentInstance;
     mockTodoService.getAllTodos$.and.returnValue(of([todoEntity]));
+    // @ts-ignore
+    Object.getOwnPropertyDescriptor(mockTodoCommunicationsService, 'newTodoCtreated$')?.get.and.returnValue(of(todoEntity));
+    // @ts-ignore
+    Object.getOwnPropertyDescriptor(mockTodoCommunicationsService, 'todoChangedStatus$')?.get.and.returnValue(of({prevStatus: todoStatus.inProgress,
+      prevTodoIndex: 1, todo: ToDoEntity}));
     fixture.detectChanges();
   });
 

@@ -3,14 +3,17 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 
 import { TodoCommunicationsService } from './todo-communications.service';
+import { TodoService } from '../../../domain/servicies/todo-service/todo.service';
 
 describe('TodoCommunicationsService', () => {
   let service: TodoCommunicationsService;
+  let mockTodoService: jasmine.SpyObj<TodoService> = jasmine.createSpyObj<TodoService>('mockTodoService', ['getAllTodos$'])
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TodoCommunicationsService
+        TodoCommunicationsService,
+        {provide: TodoService, useValue: mockTodoService}
       ]
     });
     service = TestBed.inject(TodoCommunicationsService);
