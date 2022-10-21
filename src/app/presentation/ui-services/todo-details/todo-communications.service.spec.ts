@@ -2,18 +2,18 @@ import { TestBed } from '@angular/core/testing';
 import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
 
-import { TodoDetailsService } from './todo-details.service';
+import { TodoCommunicationsService } from './todo-communications.service';
 
-describe('TodoDetailsService', () => {
-  let service: TodoDetailsService;
+describe('TodoCommunicationsService', () => {
+  let service: TodoCommunicationsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TodoDetailsService
+        TodoCommunicationsService
       ]
     });
-    service = TestBed.inject(TodoDetailsService);
+    service = TestBed.inject(TodoCommunicationsService);
   });
 
   it('should be created', () => {

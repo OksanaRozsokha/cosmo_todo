@@ -20,7 +20,7 @@ export class DBRepository implements AbstractDBRepository {
         return this.dbFacade.getTodoListfromDB$()
     }
 
-    public createTodo(todo: IToDo): Promise<void> {
+    public createTodo(todo: IToDo): Promise<ToDoEntity|null> {
         let toDoEntity: ToDoEntity = this.todoFactory.create(todo)
         return this.dbFacade.createTodo(toDoEntity);
     }

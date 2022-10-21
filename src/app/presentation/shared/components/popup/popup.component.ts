@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { PopupCommunicationsService } from '../../../ui-services/popup/popup-communications.service';
 
 @Component({
@@ -17,4 +17,7 @@ export class PopupComponent {
 
   constructor(public popupService: PopupCommunicationsService) { }
 
- }
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.popupService.close();
+  }
+}

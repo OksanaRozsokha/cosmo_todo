@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PopupCommunicationsService } from '../../ui-services/popup/popup-communications.service';
 
 import { TodoPage } from './todo-page.component';
-import { TodoDetailsService } from '../../ui-services/todo-details/todo-details.service';
+import { TodoCommunicationsService } from '../../ui-services/todo-details/todo-communications.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -10,14 +10,14 @@ describe('TodoComponent', () => {
   let component: TodoPage;
   let fixture: ComponentFixture<TodoPage>;
   let mockPopupService: jasmine.SpyObj<PopupCommunicationsService> = jasmine.createSpyObj<PopupCommunicationsService>('mockPopupService', ['open']);
-  let mockTodoDetailsService: jasmine.SpyObj<TodoDetailsService> = jasmine.createSpyObj<TodoDetailsService>('mockTodoDetailsService', [], ['todoItem']);
+  let mockTodoCommunicationsService: jasmine.SpyObj<TodoCommunicationsService> = jasmine.createSpyObj<TodoCommunicationsService>('mockTodoCommunicationsService', [], ['todoItem']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TodoPage ],
       providers: [
         {provide: PopupCommunicationsService, useValue: mockPopupService},
-        {provide: TodoDetailsService, useValue: mockTodoDetailsService},
+        {provide: TodoCommunicationsService, useValue: mockTodoCommunicationsService},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -35,7 +35,7 @@ describe('TodoComponent', () => {
   it('onCreateTodo() called on button click', () => {
     const button = fixture.debugElement.query(By.css('[data-btn-test]'));
     button.nativeElement.click();
-    expect(mockTodoDetailsService.todoItem).toBeUndefined();
+    expect(mockTodoCommunicationsService.todoItem).toBeUndefined();
     expect(mockPopupService.open).toHaveBeenCalledTimes(1);
   })
 });

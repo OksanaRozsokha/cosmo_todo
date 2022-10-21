@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractDBRepository } from '../../contracts/db.repository';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ToDoEntity } from '../../entities/todo-entity/todo.entity';
 import { IToDo } from '../../entities/interfaces/todo.interface';
 
@@ -15,7 +15,7 @@ export class TodoService {
     return this.dbRepository.getAllTodos$();
   }
 
-  public createToDo(todo: IToDo): Promise<void> {
+  public createToDo(todo: IToDo): Promise<ToDoEntity|null> {
     return this.dbRepository.createTodo(todo);
   }
 

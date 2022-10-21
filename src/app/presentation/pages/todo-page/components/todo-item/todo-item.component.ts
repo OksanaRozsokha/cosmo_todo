@@ -1,12 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service';
-import { FilterCompletedPipe } from 'src/app/presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
-import { FilterInProgressPipe } from 'src/app/presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
-import { FilterInWaitingListPipe } from 'src/app/presentation/shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
 import { todoStatus } from '../../../../../domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from '../../../../../domain/entities/todo-entity/todo.entity';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
-import { firstValueFrom } from 'rxjs';
+import { TodoCommunicationsService } from '../../../../ui-services/todo-details/todo-communications.service';
 
 @Component({
   selector: 'app-todo-item',
@@ -62,22 +59,15 @@ export class TodoItemComponent implements OnInit {
   status!: todoStatus;
   imageUrl!: string;
   indexByStatus!: number;
-  inWaitingListTodosLength!: number;
-  inProgressTodosLength!: number;
-  completedTodosLength!: number;
 
   constructor(
               private todoServise: TodoService,
               private popupServise: PopupCommunicationsService,
-              private filterCompletedPipe: FilterCompletedPipe,
-              private filterInProgressPipe: FilterInProgressPipe,
-              private filterInWaitingListPipe: FilterInWaitingListPipe
+              private todoCommunicationsService: TodoCommunicationsService,
             ) { }
 
   async ngOnInit(): Promise<void> {
-    await this._setLengthOfTodoListsFilteredByStatus();
-
-    this._setComponentFields();
+    await this._setComponentFields();
   }
 
   private _createTodo(): void {
@@ -87,19 +77,24 @@ export class TodoItemComponent implements OnInit {
       imageUrl: this.imageUrl,
       status: this.status,
       indexByStatus: this.indexByStatus
-    }).then(_ => {
+    }).then((todo: ToDoEntity|null) => {
+      if (todo) this.todoCommunicationsService.emitNewTodoCreated(todo);
       this.popupServise.close();
     });
   }
 
   private _updateTodo(): void {
+    const prevTodoStatus = this.todo!.status;
+    const prevTodoIndex = this.todo!.indexByStatus;
+
     this.todo!.title = this.title;
     this.todo!.description = this.description;
-    this.todo!.status = this.status;
     this.todo!.imageUrl = this.imageUrl;
+    this.todo!.status = this.status;
     this.todo!.indexByStatus = this.indexByStatus;
 
     this.todoServise.updateTodo(this.todo!).then(_ => {
+      if (prevTodoStatus !== this.status) this.todoCommunicationsService.emitTodoChangedStatus(prevTodoStatus, prevTodoIndex, this.todo!);
       this.popupServise.close();
     });
   }
@@ -128,36 +123,19 @@ export class TodoItemComponent implements OnInit {
     this.isSaveBtnDisable = this._checkIsBtnDisable();
   }
 
-  public onStatusChange(): void {
+  public async onStatusChange(): Promise<void> {
     if (!(!!this.todo && (this.todo.status === this.status))) {
-      switch (this.status) {
-        case todoStatus.inWaitingList:
-          this.indexByStatus = this.inWaitingListTodosLength;
-          break;
-        case todoStatus.inProgress:
-          this.indexByStatus = this.inProgressTodosLength;
-          break;
-        case todoStatus.completed:
-          this.indexByStatus = this.completedTodosLength;
-          break;
-      }
+      this.indexByStatus = (await this.todoCommunicationsService.getTodoListFilteredByStatus(this.status)).length;
     }
 
     this.onTodoChange();
   }
 
-  private async _setLengthOfTodoListsFilteredByStatus(): Promise<void> {
-    let todoList: ToDoEntity[] = await firstValueFrom(this.todoServise.getAllTodos$());
-    this.inWaitingListTodosLength = this.filterInWaitingListPipe.transform(todoList).length;
-    this.inProgressTodosLength = this.filterInProgressPipe.transform(todoList).length;
-    this.completedTodosLength = this.filterCompletedPipe.transform(todoList).length;
-  }
-
-  private _setComponentFields(): void {
+  private async _setComponentFields(): Promise<void> {
     this.title = !!this.todo ? this.todo.title : '';
     this.description = !!this.todo ? this.todo.description : '';
     this.status = !!this.todo ? this.todo.status : this.todoStatusObj.inWaitingList;
     this.imageUrl = !!this.todo ? this.todo.imageUrl : '';
-    this.indexByStatus = !!this.todo ? this.todo.indexByStatus : this.inWaitingListTodosLength;
+    this.indexByStatus = !!this.todo ? this.todo.indexByStatus : (await this.todoCommunicationsService.getTodoListFilteredByStatus(todoStatus.inWaitingList)).length;
   }
  }

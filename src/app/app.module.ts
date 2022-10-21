@@ -19,9 +19,7 @@ import { IconComponent } from './presentation/shared/components/icon/icon.compon
 import { PopupComponent } from './presentation/shared/components/popup/popup.component';
 import { TodoItemComponent } from './presentation/pages/todo-page/components/todo-item/todo-item.component';
 import { TodoItemSmComponent } from './presentation/pages/todo-page/components/todo-item-sm/todo-item-sm.component';
-import { FilterInWaitingListPipe } from './presentation/shared/pipes/filter-by-status/waiting-list/filter-in-waiting-list.pipe';
-import { FilterInProgressPipe } from './presentation/shared/pipes/filter-by-status/in-progress/filter-in-progress.pipe';
-import { FilterCompletedPipe } from './presentation/shared/pipes/filter-by-status/completed/filter-completed.pipe';
+
 import { StopPropagationDirective } from './presentation/shared/directives/stop-propagation/stop-propagation.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -37,9 +35,6 @@ import { SortByIndexPipe } from './presentation/shared/pipes/sort-by-index/sort-
     PopupComponent,
     TodoItemComponent,
     TodoItemSmComponent,
-    FilterInWaitingListPipe,
-    FilterInProgressPipe,
-    FilterCompletedPipe,
     StopPropagationDirective,
     SortByIndexPipe
   ],

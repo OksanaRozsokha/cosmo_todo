@@ -22,16 +22,15 @@ export class AngularFireDataBasaFacade {
         );
     }
 
-    public async createTodo(todo: ToDoEntity): Promise<void> {
+    public async createTodo(todo: ToDoEntity): Promise<ToDoEntity|null> {
         let user: UserEntity|null = await this._convertUserObservableToPromise();
+        if (!user) return null;
 
-        if (user) {
-            let dbRef: AngularFireList<ToDoEntity> = this.db.list<ToDoEntity>(`tasks/${user?.uid}`);
-            let task = dbRef.push(todo);
-            todo.id = task.key;
-            return dbRef.update(task.key!, todo);
-        }
-
+        let dbRef: AngularFireList<ToDoEntity> = this.db.list<ToDoEntity>(`tasks/${user?.uid}`);
+        let task = dbRef.push(todo);
+        todo.id = task.key;
+        dbRef.update(task.key!, todo);
+        return todo;
     }
 
     public async updateTodo(todo: ToDoEntity): Promise<void> {

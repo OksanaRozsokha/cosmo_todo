@@ -5,8 +5,7 @@ import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
   selector: 'app-todo-item-sm',
   template: `
     <div class="cosmo-todo-sm">
-      <p class="cosmo-todo-sm__text text--secondary-color">{{ todo.indexByStatus }}</p>
-      <p data-title-span-test class="cosmo-todo-sm__text text--secondary-color">{{ todo.title }}</p>
+      <span data-title-span-test class="cosmo-todo-sm__text text--secondary-color">{{ todo.title }}</span>
     </div>
   `,
   styleUrls: ['./todo-item-sm.component.scss']

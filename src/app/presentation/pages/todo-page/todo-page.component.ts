@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PopupCommunicationsService } from '../../ui-services/popup/popup-communications.service';
-import { TodoDetailsService } from '../../ui-services/todo-details/todo-details.service';
+import { TodoCommunicationsService } from '../../ui-services/todo-details/todo-communications.service';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
@@ -11,7 +11,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
       <button data-btn-test class="cosmo-button text--extra-bold" (click)="onCreateTodo()">
         <app-icon [size]="20"  [icon]="iconName" [fill]="iconColor"></app-icon>
       </button>
-      <app-todo-item [@inOutAnimation] [todo]="todoDetailsService.todoItem" *ngIf="popupService.isPopupVisible$ | async"></app-todo-item>
+      <app-todo-item [@inOutAnimation] [todo]="todoCommunicationsService.todoItem" *ngIf="popupService.isPopupVisible$ | async"></app-todo-item>
    </div>
   `,
   animations: [
@@ -46,11 +46,11 @@ export class TodoPage {
 
   constructor(
     public popupService: PopupCommunicationsService,
-    public todoDetailsService: TodoDetailsService
+    public todoCommunicationsService: TodoCommunicationsService
     ) { }
 
   onCreateTodo(): void {
-    this.todoDetailsService.todoItem = undefined;
+    this.todoCommunicationsService.todoItem = undefined;
     this.popupService.open();
   }
 }
