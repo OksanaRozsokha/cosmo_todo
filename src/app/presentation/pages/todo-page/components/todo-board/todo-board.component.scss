@@ -7,7 +7,7 @@
     padding-bottom: 40px;
 
     @media (max-width: 385px) {
-        padding-top: 20px;
+        padding-top: 115px;
     }
 }
 
@@ -31,7 +31,9 @@
 }
 
 .cosmo-todo-list {
-    min-height: 100vh;
+    min-height: calc(100vh - 224px);
+    padding: 10px;
+    border: 1px dashed #ffffff47;
 }
 
 .cdk-drag-preview {

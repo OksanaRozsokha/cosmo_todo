@@ -25,6 +25,10 @@
     background: $popupColor;
     overflow-y: auto;
 
+    @media (max-width: 1010px) {
+        max-width: 85%;
+    }
+
     @media (max-height: 715px) {
         height: 70vh;
     }
@@ -37,11 +41,12 @@
         height: 90vh;
     }
 
-    @media (max-height: 650px) and (max-width: 670px) {
-        height: 95vh;
+    @media (max-height: 916px) and (max-width: 670px) {
+        height: 70vh;
     }
 
-    @media (max-width: 1010px) {
-        max-width: 85%;
+    @media (max-height: 740px) and (max-width: 670px) {
+        height: 80vh;
     }
+
 }
