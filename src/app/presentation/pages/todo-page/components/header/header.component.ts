@@ -4,7 +4,6 @@ import { UserEntity } from '../../../../../domain/entities/user-entity/user.enti
 import { Observable } from 'rxjs';
 import { RouterConstants } from '../../../../../common/constants/router.constants';
 import { Router } from '@angular/router';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-header',

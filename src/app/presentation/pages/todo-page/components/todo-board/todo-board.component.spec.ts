@@ -13,8 +13,6 @@ import { SortByIndexPipe } from '../../../../shared/pipes/sort-by-index/sort-by-
 import { CdkDragDrop, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { DragDropEventFactory } from './mock.cdk-drag-drop-event.factory';
 
-
-
 describe('TodoBoardComponent', () => {
   let component: TodoBoardComponent;
   let fixture: ComponentFixture<TodoBoardComponent>;
@@ -161,6 +159,3 @@ describe('TodoBoardComponent', () => {
     });
   });
 });
-
-
-

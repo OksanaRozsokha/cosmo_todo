@@ -1,7 +1,6 @@
 import { UserFactory } from './user.factory';
 import { UserEntity } from '../../user-entity/user.entity';
 
-
 describe('Check UserFactory', () => {
   let userFactory: UserFactory;
 

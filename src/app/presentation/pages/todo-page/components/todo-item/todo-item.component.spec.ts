@@ -200,5 +200,3 @@ describe('TodoItem', () => {
     });
   });
 });
-
-

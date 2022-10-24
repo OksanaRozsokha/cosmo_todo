@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { AuthService } from '../../../../../domain/servicies/auth-service/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { UserEntity } from '../../../../../domain/entities/user-entity/user.entity';
 import { RouterConstants } from 'src/app/common/constants/router.constants';
 
 describe('HeaderComponent', () => {

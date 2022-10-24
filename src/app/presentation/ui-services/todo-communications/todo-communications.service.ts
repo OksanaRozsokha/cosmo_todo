@@ -6,11 +6,11 @@ import { todoStatus } from '../../../domain/entities/interfaces/todo.interface';
 @Injectable({
   providedIn: 'root'
 })
+
 export class TodoCommunicationsService {
 
   constructor(private todoServise: TodoService,
   ) {}
-
 
   public todoChangedStatus$: Subject<{prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity}> = new Subject<{prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity}>();
   public newTodoCtreated$: Subject<ToDoEntity> = new Subject<ToDoEntity>();
