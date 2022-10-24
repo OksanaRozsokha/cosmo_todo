@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PopupCommunicationsService } from '../../ui-services/popup/popup-communications.service';
 
 import { TodoPage } from './todo-page.component';
-import { TodoCommunicationsService } from '../../ui-services/todo-details/todo-communications.service';
+import { TodoCommunicationsService } from '../../ui-services/todo-communications/todo-communications.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 

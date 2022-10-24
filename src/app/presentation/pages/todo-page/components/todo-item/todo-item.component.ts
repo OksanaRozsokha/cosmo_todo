@@ -3,7 +3,7 @@ import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service'
 import { todoStatus } from '../../../../../domain/entities/interfaces/todo.interface';
 import { ToDoEntity } from '../../../../../domain/entities/todo-entity/todo.entity';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
-import { TodoCommunicationsService } from '../../../../ui-services/todo-details/todo-communications.service';
+import { TodoCommunicationsService } from '../../../../ui-services/todo-communications/todo-communications.service';
 
 @Component({
   selector: 'app-todo-item',
@@ -101,6 +101,7 @@ export class TodoItemComponent implements OnInit {
 
   public removeTodo(): void {
     this.todoServise.removeTodo(this.todo!.id!).then(_ => {
+      this.todoCommunicationsService.emitTodoRemoved(this.todo!);
       this.popupServise.close();
     });
   }

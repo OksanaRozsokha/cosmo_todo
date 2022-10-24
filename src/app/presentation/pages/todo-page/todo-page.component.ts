@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PopupCommunicationsService } from '../../ui-services/popup/popup-communications.service';
-import { TodoCommunicationsService } from '../../ui-services/todo-details/todo-communications.service';
+import { TodoCommunicationsService } from '../../ui-services/todo-communications/todo-communications.service';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({

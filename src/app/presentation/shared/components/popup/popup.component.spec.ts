@@ -44,4 +44,11 @@ describe('PopupComponent', () => {
 
     expect(mockPopupService.close).toHaveBeenCalledTimes(0);
   })
+
+  it ('close() method should be call on keydown event - escape', () => {
+    component.onKeydownHandler(new KeyboardEvent('keydown', {'code': 'ESCAPE'}));
+    fixture.detectChanges();
+
+    expect(mockPopupService.close).toHaveBeenCalledTimes(1);
+  })
 });

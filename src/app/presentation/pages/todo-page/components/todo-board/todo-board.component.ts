@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs';
 import { TodoService } from 'src/app/domain/servicies/todo-service/todo.service';
 import { ToDoEntity } from 'src/app/domain/entities/todo-entity/todo.entity';
-import { TodoCommunicationsService } from '../../../../ui-services/todo-details/todo-communications.service';
+import { TodoCommunicationsService } from '../../../../ui-services/todo-communications/todo-communications.service';
 import { PopupCommunicationsService } from '../../../../ui-services/popup/popup-communications.service';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
@@ -11,10 +11,9 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
   template: `
     <section class="cosmo-board" >
       <div class="container grid-row grid-row--space-between-h" cdkDropListGroup>
-
         <div class="grid-row__item-3">
           <h4 class="cosmo-column-title">In Waiting List</h4>
-            <div class="cosmo-todo-list" cdkDropList [id]="status.inWaitingList" [cdkDropListData]="todosInWaitingList | sortByIndex" (cdkDropListDropped)="onDropTodo($event)">
+            <div class="cosmo-todo-list" data-drag-list-test cdkDropList [id]="status.inWaitingList" [cdkDropListData]="todosInWaitingList | sortByIndex" (cdkDropListDropped)="onDropTodo($event)">
               <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-in-waiting-test]="i+1" *ngFor="let todo of todosInWaitingList | sortByIndex; let i = index" [todo]="todo"  (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
             </div>
         </div>
@@ -32,7 +31,6 @@ import { todoStatus } from 'src/app/domain/entities/interfaces/todo.interface';
             <app-todo-item-sm cdkDrag [cdkDragData]="todo" [attr.data-todo-completed-test]="i+1" *ngFor="let todo of todosCompleted | sortByIndex; let i = index" [todo]="todo" (click)="onTodoClick(todo)" class="cosmo-todo-sm"></app-todo-item-sm>
           </div>
         </div>
-
       </div>
 
     </section>
@@ -54,22 +52,24 @@ export class TodoBoardComponent implements OnInit {
     inWaitingList: todoStatus.inWaitingList,
     inProgress: todoStatus.inProgress,
     completed: todoStatus.completed,
-  }
-
+  };
 
   ngOnInit(): void {
+    this._getAllFilteredTodos();
+    this._onNewTodoCreated();
+    this._onStatusChangeInsideTodo();
+    this._onTodoRemoved();
+  }
+
+  private _getAllFilteredTodos(): void {
     this.todoService.getAllTodos$().pipe(first()).subscribe((todos: ToDoEntity[]) => {
       this.todosInWaitingList = this._filterTodosByStatus(todos, todoStatus.inWaitingList);
       this.todosInProgress = this._filterTodosByStatus(todos, todoStatus.inProgress);
       this.todosCompleted = this._filterTodosByStatus(todos, todoStatus.completed);
     });
-
-    this._onNewTodoCreated();
-    this._onStatusChangeInsideTodo();
   }
 
   private _filterTodosByStatus(todos: ToDoEntity[],  status: todoStatus): ToDoEntity[] {
-    if (!todos) return [];
     return todos.filter(todo => todo.status === status);
   }
 
@@ -126,6 +126,38 @@ export class TodoBoardComponent implements OnInit {
     }
   }
 
+  private _onNewTodoCreated(): void {
+    this.todoCommunicationsService.newTodoCtreated$.subscribe((todo: ToDoEntity) => {
+      switch (todo.status) {
+        case todoStatus.inWaitingList:
+          this.todosInWaitingList.push(todo);
+          break;
+        case todoStatus.inProgress:
+          this.todosInProgress.push(todo);
+          break;
+        case todoStatus.completed:
+          this.todosCompleted.push(todo);
+          break;
+      }
+    });
+  }
+
+  private _onTodoRemoved(): void {
+    this.todoCommunicationsService.todoWasRemoved$.subscribe((todo: ToDoEntity) => {
+      switch (todo.status) {
+        case todoStatus.inWaitingList:
+          this._updatePrevListTodos(this.todosInWaitingList, todo.indexByStatus, todo);
+          break;
+        case todoStatus.inProgress:
+          this._updatePrevListTodos(this.todosInProgress, todo.indexByStatus, todo);
+          break;
+        case todoStatus.completed:
+          this._updatePrevListTodos(this.todosCompleted, todo.indexByStatus, todo);
+          break;
+      }
+    });
+  }
+
   private  _onStatusChangeInsideTodo(): void {
     this.todoCommunicationsService.todoChangedStatus$.subscribe((data) => {
       this._updatePrevListOnStatusChange(data.prevStatus, data.prevTodoIndex, data.todo);
@@ -147,49 +179,33 @@ export class TodoBoardComponent implements OnInit {
     }
   }
 
-  private async _updatePrevListOnStatusChange(prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity): Promise<void> {
+  private  _updatePrevListOnStatusChange(prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity): void {
     switch(prevStatus) {
       case todoStatus.inWaitingList:
-        this._updatePrevListTodos(this.todosInWaitingList, prevStatus, prevTodoIndex, todo);
+        this._updatePrevListTodos(this.todosInWaitingList, prevTodoIndex, todo);
         break;
       case todoStatus.inProgress:
-        this._updatePrevListTodos(this.todosInProgress, prevStatus, prevTodoIndex, todo);
+        this._updatePrevListTodos(this.todosInProgress, prevTodoIndex, todo);
         break;
       case todoStatus.completed:
-        this._updatePrevListTodos(this.todosCompleted, prevStatus, prevTodoIndex, todo);
+        this._updatePrevListTodos(this.todosCompleted, prevTodoIndex, todo);
         break;
     }
   }
 
-  private _updatePrevListTodos(prevList: ToDoEntity[], prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity): void {
+  private _updatePrevListTodos(prevList: ToDoEntity[],  prevTodoIndex: number, todo: ToDoEntity): void {
     let todoIndexToRemove: number = prevList.findIndex((item: ToDoEntity) => item.id === todo.id);
     prevList.splice(todoIndexToRemove, 1);
-    let nextAfterRemovedTodos: ToDoEntity[] = prevList.filter(todo => todo.indexByStatus > prevTodoIndex);
+    let nextAfterRemovedTodos: ToDoEntity[] = prevList.filter(todoItem => todoItem.indexByStatus > prevTodoIndex);
 
     for (let i = 0; i < nextAfterRemovedTodos.length; i++) {
-      let todo: ToDoEntity = nextAfterRemovedTodos[i];
-      if (todo.indexByStatus > 0) {
-        todo.indexByStatus -= 1;
+      let todoItem: ToDoEntity = nextAfterRemovedTodos[i];
+      if (todoItem.indexByStatus > 0) {
+        todoItem.indexByStatus -= 1;
       }
 
-      this.todoService.updateTodo(todo);
+      this.todoService.updateTodo(todoItem);
     }
-  }
-
-  private _onNewTodoCreated(): void {
-    this.todoCommunicationsService.newTodoCtreated$.subscribe((todo: ToDoEntity) => {
-      switch (todo.status) {
-        case todoStatus.inWaitingList:
-          this.todosInWaitingList.push(todo);
-          break;
-        case todoStatus.inProgress:
-          this.todosInProgress.push(todo);
-          break;
-        case todoStatus.completed:
-          this.todosCompleted.push(todo);
-          break;
-      }
-    });
   }
 }
 

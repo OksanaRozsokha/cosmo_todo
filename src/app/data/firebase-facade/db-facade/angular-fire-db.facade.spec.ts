@@ -72,10 +72,18 @@ describe('check AngularFireDataBasaFacade', () => {
         });
     });
 
-    it('check createTodo method',  (done) => {
+    it('check createTodo method return ToDOEntity',  (done) => {
         mockauthFacade.getSignedInUser$.and.returnValue(of(userEntity));
         dbFacade.createTodo(todoEntity).then(result => {
             expect(result).toBe(todoEntity);
+            done();
+        });
+    });
+
+    it('check createTodo method return null',  (done) => {
+        mockauthFacade.getSignedInUser$.and.returnValue(of(null));
+        dbFacade.createTodo(todoEntity).then(result => {
+            expect(result).toBe(null);
             done();
         });
     });

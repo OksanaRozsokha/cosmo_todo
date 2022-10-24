@@ -14,9 +14,9 @@ export class TodoCommunicationsService {
 
   public todoChangedStatus$: Subject<{prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity}> = new Subject<{prevStatus: todoStatus, prevTodoIndex: number, todo: ToDoEntity}>();
   public newTodoCtreated$: Subject<ToDoEntity> = new Subject<ToDoEntity>();
+  public todoWasRemoved$: Subject<ToDoEntity> = new Subject<ToDoEntity>();
 
   private  _todoItem?: ToDoEntity;
-
 
   get todoItem(): ToDoEntity|undefined {
     return this._todoItem;
@@ -28,7 +28,6 @@ export class TodoCommunicationsService {
 
   public async getTodoListFilteredByStatus(status: todoStatus): Promise<ToDoEntity[]> {
     let todoList = await firstValueFrom(this.todoServise.getAllTodos$());
-    if(!todoList) return [];
     return todoList.filter((todo: ToDoEntity) => todo.status === status);
   }
 
@@ -36,7 +35,11 @@ export class TodoCommunicationsService {
     this.todoChangedStatus$.next({prevStatus: prevStatus,  prevTodoIndex: prevTodoIndex, todo: todo});
   }
 
-  public emitNewTodoCreated(todo: ToDoEntity) {
+  public emitNewTodoCreated(todo: ToDoEntity): void {
     this.newTodoCtreated$.next(todo);
+  }
+
+  public emitTodoRemoved(todo: ToDoEntity): void {
+    this.todoWasRemoved$.next(todo);
   }
 }
